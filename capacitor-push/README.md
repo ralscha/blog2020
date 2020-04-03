@@ -1,1 +1,1 @@
-Code for blog post: 
+Code for blog post: https://golb.hplar.ch/2020/04/capacitor-push-notification.html
