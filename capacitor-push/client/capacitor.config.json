@@ -1,0 +1,8 @@
+{
+  "appId": "ch.rasc.push",
+  "appName": "push",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
