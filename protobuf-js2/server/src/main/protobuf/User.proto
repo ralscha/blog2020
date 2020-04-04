@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option java_package = "ch.rasc.protobuf";
+
+message UserRequest {
+  string firstname = 1;
+  string lastname = 2;
+  uint32 age = 3;
+  enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+  }
+  Gender gender = 4;
+}
+
+message UserResponse {
+  string id = 1;
+  enum Status {
+    OK = 0;
+    NOT_OK = 1;
+  }
+  Status status = 2;
+}

@@ -1,0 +1,20 @@
+<form #form="ngForm" (ngSubmit)="submit(form.value)" class="options">
+  <div>
+    <label for="firstName">First Name</label><br>
+    <input id="firstName" name="firstname" ngModel type="text">
+  </div>
+  <div>
+    <label for="lastName">Last Name:</label><br>
+    <input id="lastName" name="lastname" ngModel type="text">
+  </div>
+  <div>
+    <label for="age">Age:</label><br>
+    <input id="age" max="120" min="0" name="age" ngModel type="number">
+  </div>
+  <div>
+    <input id="maleGender" name="gender" ngModel type="radio" value="MALE"><label for="maleGender">Male</label>
+    <input id="femaleGender" name="gender" ngModel type="radio" value="FEMALE"><label for="femaleGender">Female</label>
+  </div>
+
+  <button type="submit">Submit</button>
+</form>
