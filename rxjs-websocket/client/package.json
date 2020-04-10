@@ -1,17 +1,18 @@
 {
-  "name": "protobuf2",
+  "name": "client",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "build-prod": "ng build --prod",
-    "serve-dist": "ws --hostname localhost -d dist/app -p 1234 -o --log.format stats",
     "lint": "ng lint",
-    "pbts": "pbjs -t static-module ../server/src/main/protobuf/User.proto -o src/app/protos/user.js && pbts --no-comments src/app/protos/user.js -o src/app/protos/user.d.ts"
+    "serve-dist": "ws --hostname localhost -d dist/app -p 1234 -o --log.format stats",
+    "pbts": "pbjs -t static-module ../server/src/main/protobuf/Calculator.proto -o src/app/protos/calculator.js && pbts --no-comments src/app/protos/calculator.js -o src/app/protos/calculator.d.ts"
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "9.1.1",
     "@angular/common": "9.1.1",
     "@angular/compiler": "9.1.1",
     "@angular/core": "9.1.1",
@@ -19,7 +20,11 @@
     "@angular/platform-browser": "9.1.1",
     "@angular/platform-browser-dynamic": "9.1.1",
     "@angular/router": "9.1.1",
+    "date-fns": "2.12.0",
+    "echarts": "4.7.0",
     "protobufjs": "6.8.9",
+    "ngx-echarts": "4.2.2",
+    "reconnecting-websocket": "4.4.0",
     "rxjs": "6.5.5",
     "tslib": "1.11.1",
     "zone.js": "0.10.3"

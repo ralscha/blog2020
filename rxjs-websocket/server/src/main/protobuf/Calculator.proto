@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_package = "ch.rasc.protobuf";
+
+message Calculation {
+  double value1 = 1;
+  double value2 = 2;
+  enum Operation {
+    Addition = 0;
+    Subtraction = 1;
+    Multiplication = 2; 
+    Division = 3;
+    
+  }
+  Operation operation = 3;
+}
+
+message Result {
+  double result = 1;
+}
