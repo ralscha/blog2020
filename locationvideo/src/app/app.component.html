@@ -1,0 +1,13 @@
+<google-map [center]="center" [zoom]="zoom" height="100%" width="100%">
+  <map-marker #markerElement
+              *ngFor="let marker of markers"
+              (mapClick)="openInfoWindow(markerElement, marker)"
+              [options]="marker.option"></map-marker>
+  <map-info-window>{{info}}</map-info-window>
+</google-map>
+
+<youtube-player *ngIf="videoId" (ready)="onReady($event)"
+                (stateChange)="onStateChange($event)"
+                [videoId]="videoId"></youtube-player>
+
+

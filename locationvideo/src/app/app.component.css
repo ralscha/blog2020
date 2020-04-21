@@ -1,0 +1,14 @@
+:host {
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 20px;
+  height: calc(100vh - 20px);
+  width: calc(100vw - 20px)
+}
+
+youtube-player {
+  height: 100%;
+  justify-self: center;
+}

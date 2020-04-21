@@ -33,7 +33,7 @@
     "@angular/language-service": "9.1.2",
     "@capacitor/cli": "2.0.1",
     "@ionic/angular-toolkit": "2.2.0",
-    "@types/node": "13.13.0",
+    "@types/node": "13.13.1",
     "codelyzer": "5.2.2",
     "local-web-server": "4.0.0",
     "tslint": "6.1.1",
