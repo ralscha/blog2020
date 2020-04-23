@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>
+      Users: {{ chatService.room }}
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="signout()">
+        <ion-icon name="log-out" slot="icon-only">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list lines="none">
+    <ion-item *ngFor="let user of chatService.usersSubject | async">
+      <ion-label>
+        <h2>{{ user }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
