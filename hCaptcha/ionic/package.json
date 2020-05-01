@@ -1,13 +1,13 @@
 {
-  "name": "locationvideo",
+  "name": "hcaptcha",
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --host test.mydomain.com --disable-host-check",
     "build": "ng build",
-    "build-prod": "ng build --prod --base-href /locationvideo/",
-    "postbuild-prod": "bread-compressor dist/locationvideo",
-    "lint": "ng lint"
+    "build-prod": "ng build --prod",
+    "lint": "ng lint",
+    "serve-dist": "ws --hostname localhost -d dist/app -p 1234 -o --log.format stats"
   },
   "private": true,
   "dependencies": {
@@ -16,11 +16,11 @@
     "@angular/compiler": "9.1.4",
     "@angular/core": "9.1.4",
     "@angular/forms": "9.1.4",
-    "@angular/google-maps": "9.2.1",
     "@angular/platform-browser": "9.1.4",
     "@angular/platform-browser-dynamic": "9.1.4",
     "@angular/router": "9.1.4",
-    "@angular/youtube-player": "9.2.1",
+    "@ionic/angular": "5.1.0",
+    "ng-hcaptcha": "0.1.0-beta.3",
     "rxjs": "6.5.5",
     "tslib": "1.11.1",
     "zone.js": "0.10.3"
@@ -30,9 +30,10 @@
     "@angular/cli": "9.1.4",
     "@angular/compiler-cli": "9.1.4",
     "@angular/language-service": "9.1.4",
+    "@ionic/angular-toolkit": "2.2.0",
     "@types/node": "13.13.4",
-    "bread-compressor-cli": "1.1.0",
     "codelyzer": "5.2.2",
+    "local-web-server": "4.0.0",
     "tslint": "6.1.2",
     "typescript": "3.8.3"
   }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.muicss.com/mui-0.10.2/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.muicss.com/mui-0.10.2/js/mui.min.js"></script>
+  <script src="https://hcaptcha.com/1/api.js" async defer></script>
+  <title>hCaptcha Basic Example</title>
+  <style>
+    #content-wrapper {
+      margin: 20px auto;
+      width: 40%;
+    }
+  </style>
+  <script>
+
+    async function submitForm() {
+      const signUpForm = document.getElementById('signUpForm');
+      const formData = new FormData(signUpForm);
+
+      // Workaround, hCaptcha adds two keys with same value
+      formData.delete('g-recaptcha-response');
+
+      const response = await fetch('/signup', {
+        method: 'POST',
+        body: formData
+      });
+
+      const ok = await response.json();
+      if (ok) {
+        window.location.href = "ok.html";
+      } else {
+        console.log('something went wrong');
+        window.location.href = "index.html";
+      }
+
+    }
+
+  </script>
+</head>
+
+<body>
+  <div id="content-wrapper">
+    <form class="mui-form" id="signUpForm" onsubmit="submitForm(); return false;">
+      <legend>Sign Up</legend>
+      <div class="mui-textfield">
+        <input type="text" name="username" required autocomplete="username" spellcheck="false" />
+        <label>Username</label>
+      </div>
+      <div class="mui-textfield">
+        <input type="email" name="email" required autocomplete="email" spellcheck="false" />
+        <label>Email</label>
+      </div>
+      <div class="h-captcha" data-sitekey="3f7f821f-05b7-486b-a3d9-21395609a73e"></div>
+      <button type="submit" class="mui-btn mui-btn--raised">Sign Up</button>
+    </form>
+  </div>
+</body>
+
+</html>
