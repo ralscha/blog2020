@@ -1,0 +1,64 @@
+@import '../node_modules/lightgallery.js/dist/css/lightgallery.css';
+
+#map {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+}
+
+/* Outside white border */
+.asset-map-image-marker {
+	background-color: gold;
+	border-radius: 5px;
+	cursor: pointer !important;
+	height: 40px;
+	margin-left: -20px; /* margin-left = -width/2 */
+	margin-top: -50px; /* margin-top = -height + arrow */
+	padding: 0px;
+	position: absolute;
+	width: 40px;
+}
+
+/* Arrow on bottom of container */
+.asset-map-image-marker:after {
+	border-color: #ffffff transparent;
+	border-style: solid;
+	border-width: 10px 10px 0;
+	bottom: -10px;
+	content: '';
+	display: block;
+	left: 10px;
+	position: absolute;
+	width: 0;
+}
+
+/* Inner image container */
+.asset-map-image-marker div.image {
+	background-position: center center;
+	background-size: cover;
+	border-radius: 5px;
+	height: 36px;
+	margin: 2px;
+	width: 36px;
+}
+
+.tingle-modal {
+  background-color: #1d1d1dd9;
+}
+
+.tingle-modal-box {
+  width: 90%;
+  background-color: transparent;
+}
+
+.tingle-modal-box__content {
+	 padding: 0;
+}
+
+@media (max-width : 540px) and (orientation: portrait) {
+  .tingle-modal-box {
+    width: 100%;
+  }
+}
