@@ -43,22 +43,3 @@
 	margin: 2px;
 	width: 36px;
 }
-
-.tingle-modal {
-  background-color: #1d1d1dd9;
-}
-
-.tingle-modal-box {
-  width: 90%;
-  background-color: transparent;
-}
-
-.tingle-modal-box__content {
-	 padding: 0;
-}
-
-@media (max-width : 540px) and (orientation: portrait) {
-  .tingle-modal-box {
-    width: 100%;
-  }
-}
