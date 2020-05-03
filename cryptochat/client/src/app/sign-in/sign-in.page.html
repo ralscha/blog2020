@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Chat: Sign In</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="enter()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Username</ion-label>
+        <ion-input (keyup.enter)="enter()" [(ngModel)]="username" name="username" required type="text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Room</ion-label>
+        <ion-input (keyup.enter)="enter()" [(ngModel)]="room" name="room" required type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="block" type="submit">Enter</ion-button>
+  </form>
+</ion-content>

@@ -1,0 +1,17 @@
+<ion-tabs>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="users">
+      <ion-icon name="people"></ion-icon>
+      <ion-label>Users</ion-label>
+      <ion-badge>{{(chatService.usersSubject | async).length}}</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="messages">
+      <ion-icon name="chatbubbles"></ion-icon>
+      <ion-label>Messages</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+
+</ion-tabs>
