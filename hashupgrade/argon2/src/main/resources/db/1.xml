@@ -56,8 +56,4 @@
        <modifyDataType tableName="app_user" columnName="password_hash" newDataType="varchar(106)"/>
 	</changeSet>
 	
-	<changeSet author="dev" id="4">
-       <modifyDataType tableName="app_user" columnName="password_hash" newDataType="varchar(109)"/>
-	</changeSet>		
-
 </databaseChangeLog>
