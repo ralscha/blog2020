@@ -54,8 +54,8 @@ public class Application {
 			var sb = new StringBuilder();
 			sb.append("response=");
 			sb.append(captchaResponse);
-			//sb.append("&secret=");
-			//sb.append(this.hCaptchaSecretKey);
+			sb.append("&secret=");
+			sb.append(this.hCaptchaSecretKey);
 
 			HttpRequest request = HttpRequest.newBuilder()
 					.uri(URI.create("https://hcaptcha.com/siteverify"))
