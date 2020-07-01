@@ -11,20 +11,20 @@
     "serve-dist": "ws --hostname localhost -d dist -p 8080 -o --log.format stats"
   },
   "devDependencies": {
-    "@babel/core": "7.9.6",
-    "@babel/plugin-transform-runtime": "7.9.6",
+    "@babel/core": "7.10.4",
+    "@babel/plugin-transform-runtime": "7.10.4",
     "bread-compressor-cli": "1.1.0",
     "local-web-server": "4.2.1",
     "parcel-bundler": "1.12.4",
     "rimraf": "3.0.2"
   },
   "dependencies": {
-    "@google/markerclustererplus": "5.0.3",
+    "@google/markerclustererplus": "5.0.4",
     "date-fns": "2.14.0",
-    "lg-autoplay.js": "1.0.0",
-    "lg-fullscreen.js": "1.1.0",
-    "lg-zoom.js": "1.0.1",
-    "lightgallery.js": "1.1.3"
+    "lg-autoplay.js": "1.2.0",
+    "lg-fullscreen.js": "1.2.0",
+    "lg-zoom.js": "1.2.0",
+    "lightgallery.js": "1.2.0"
   },
   "browserslist": [
     "> 1%",

@@ -46,11 +46,11 @@
     <form class="mui-form" id="signUpForm" onsubmit="submitForm(); return false;">
       <legend>Sign Up</legend>
       <div class="mui-textfield">
-        <input type="text" name="username" required autocomplete="username" spellcheck="false" />
+        <input type="text" name="username" [required]="true" autocomplete="username" spellcheck="false" />
         <label>Username</label>
       </div>
       <div class="mui-textfield">
-        <input type="email" name="email" required autocomplete="email" spellcheck="false" />
+        <input type="email" name="email" [required]="true" autocomplete="email" spellcheck="false" />
         <label>Email</label>
       </div>
       <div class="h-captcha" data-sitekey="3f7f821f-05b7-486b-a3d9-21395609a73e"></div>

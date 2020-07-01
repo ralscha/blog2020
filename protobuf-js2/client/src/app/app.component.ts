@@ -32,7 +32,7 @@ export class AppComponent {
       Accept: 'application/x-protobuf',
       'Content-Type': 'application/x-protobuf'
     });
-		
+
     this.httpClient.post(`${environment.SERVER_URL}/register-user`, userRequestArrayBuffer, {headers, responseType: 'arraybuffer'})
       .pipe(
         map(response => this.parseProtobuf(response)),

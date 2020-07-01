@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {NgxEchartsModule} from 'ngx-echarts';
 import {FormsModule} from '@angular/forms';
+import * as echarts from 'echarts';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,9 @@ import {FormsModule} from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    NgxEchartsModule,
+    NgxEchartsModule.forRoot({
+      echarts,
+    }),
     FormsModule
   ],
   providers: [],

@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MapInfoWindow, MapMarker} from '@angular/google-maps';
+import {MapAnchorPoint, MapInfoWindow, MapMarker} from '@angular/google-maps';
 import {YouTubePlayer} from '@angular/youtube-player';
 
 type MarkerObject = {
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
     document.body.appendChild(tag);
   }
 
-  openInfoWindow(markerElement: MapMarker, marker: MarkerObject) {
+  openInfoWindow(markerElement: any, marker: MarkerObject) {
     if (this.youtubePlayer
       && this.youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
       this.youtubePlayer.stopVideo();
