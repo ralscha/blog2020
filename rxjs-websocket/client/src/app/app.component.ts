@@ -1,6 +1,6 @@
 import {Component, OnDestroy} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import {catchError, concatMap, delay, filter, retryWhen} from 'rxjs/operators';
+import {catchError, concatMap, delay, filter, retryWhen, tap} from 'rxjs/operators';
 import {Observable, of, race, Subject, Subscription, timer} from 'rxjs';
 import format from 'date-fns/format';
 import {Calculation, Result} from './protos/calculator';
@@ -77,8 +77,8 @@ export class AppComponent implements OnDestroy {
 
     const heartbeat$ = timer(1_000, 30_000)
       .pipe(
+        tap(() => this.connect().next('ping')),
         concatMap(_ => {
-          this.connect().next('ping');
           return race(
             of('timeout').pipe(delay(3_000)),
             this.connect().pipe(filter(m => m === 'pong'), catchError(error => of('error')))
