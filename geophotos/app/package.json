@@ -11,7 +11,7 @@
     "serve-dist": "ws --hostname localhost -d dist -p 8080 -o --log.format stats"
   },
   "devDependencies": {
-    "@babel/core": "7.11.0",
+    "@babel/core": "7.11.1",
     "@babel/plugin-transform-runtime": "7.11.0",
     "bread-compressor-cli": "1.1.0",
     "local-web-server": "4.2.1",
