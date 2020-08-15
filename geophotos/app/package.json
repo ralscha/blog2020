@@ -19,7 +19,7 @@
     "rimraf": "3.0.2"
   },
   "dependencies": {
-    "@google/markerclustererplus": "5.0.4",
+    "@google/markerclustererplus": "5.1.0",
     "date-fns": "2.15.0",
     "lg-autoplay.js": "1.2.0",
     "lg-fullscreen.js": "1.2.0",
