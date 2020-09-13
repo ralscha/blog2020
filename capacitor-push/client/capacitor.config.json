@@ -1,6 +1,6 @@
 {
   "appId": "ch.rasc.push",
-  "appName": "push",
+  "appName": "android",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

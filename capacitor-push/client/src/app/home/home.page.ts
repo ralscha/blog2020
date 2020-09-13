@@ -33,7 +33,7 @@ export class HomePage {
     });
   }
 
-  async register() {
+  async register(): Promise<void> {
     await Plugins.PushNotifications.register();
     const {token} = await fcm.getToken();
     const formData = new FormData();
@@ -44,7 +44,7 @@ export class HomePage {
         _ => this.allowPersonal = !this.allowPersonal);
   }
 
-  async unregister() {
+  async unregister(): Promise<void> {
     await Plugins.PushNotifications.register();
     const {token} = await fcm.getToken();
     const formData = new FormData();
@@ -55,7 +55,7 @@ export class HomePage {
         _ => this.allowPersonal = !this.allowPersonal);
   }
 
-  onChange() {
+  onChange(): void {
     localStorage.setItem('allowPush', JSON.stringify(this.allowPush));
 
     if (this.allowPush) {
@@ -65,7 +65,7 @@ export class HomePage {
     }
   }
 
-  onPmChange() {
+  onPmChange(): void {
     localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal));
 
     if (this.allowPersonal) {
@@ -75,7 +75,7 @@ export class HomePage {
     }
   }
 
-  handleNotification(data) {
+  handleNotification(data: { text: string, id: number}): void {
     if (!data.text) {
       return;
     }
@@ -90,7 +90,7 @@ export class HomePage {
     this.changeDetectorRef.detectChanges();
   }
 
-  private async initFCM() {
+  private async initFCM(): Promise<void> {
     await Plugins.PushNotifications.register();
 
     Plugins.PushNotifications.addListener('registrationError',
@@ -103,8 +103,8 @@ export class HomePage {
 
         Plugins.LocalNotifications.schedule({
           notifications: [{
-            title: notification.title,
-            body: notification.body,
+            title: notification.title ?? '',
+            body: notification.body ?? '',
             id: Date.now(),
             extra: notification.data,
             smallIcon: 'res://ic_stat_name'
