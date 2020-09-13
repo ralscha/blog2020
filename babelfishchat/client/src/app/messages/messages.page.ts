@@ -9,12 +9,12 @@ import {IonContent, IonList, NavController} from '@ionic/angular';
 })
 export class MessagesPage implements OnInit {
 
-  messageText: string = null;
+  messageText: string | null = null;
 
-  @ViewChild(IonContent, {static: true}) content: IonContent;
+  @ViewChild(IonContent, {static: true}) content!: IonContent;
   @ViewChild(IonList, {read: ElementRef, static: true})
-  private chatElement: ElementRef;
-  private mutationObserver: MutationObserver;
+  private chatElement!: ElementRef;
+  private mutationObserver!: MutationObserver;
 
   constructor(public readonly chatService: ChatService,
               private readonly navCtrl: NavController) {
@@ -31,12 +31,12 @@ export class MessagesPage implements OnInit {
     });
   }
 
-  signout() {
+  signout(): void {
     this.chatService.signout();
     this.navCtrl.navigateRoot('sign-in');
   }
 
-  sendMessage() {
+  sendMessage(): void {
     if (this.messageText && this.messageText.trim().length > 0) {
       this.chatService.send(this.messageText);
       this.messageText = '';

@@ -4,7 +4,7 @@
     <ion-tab-button tab="users">
       <ion-icon name="people"></ion-icon>
       <ion-label>Users</ion-label>
-      <ion-badge>{{(chatService.usersSubject | async).length}}</ion-badge>
+      <ion-badge>{{(chatService.usersSubject | async)?.length}}</ion-badge>
     </ion-tab-button>
 
     <ion-tab-button tab="messages">

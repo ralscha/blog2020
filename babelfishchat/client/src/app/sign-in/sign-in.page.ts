@@ -9,8 +9,8 @@ import {ChatService} from '../services/chat.service';
 })
 export class SignInPage implements OnInit {
 
-  username: string;
-  room: string;
+  username!: string;
+  room!: string;
   language = 'en';
 
   supportedLanguages = [
@@ -58,11 +58,11 @@ export class SignInPage implements OnInit {
               private readonly alertCtrl: AlertController) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.chatService.init();
   }
 
-  async enter() {
+  async enter(): Promise<void> {
     const ok = await this.chatService.signin(this.username, this.room, this.language);
     if (ok) {
       this.navCtrl.navigateRoot('messages');
@@ -71,7 +71,7 @@ export class SignInPage implements OnInit {
     }
   }
 
-  private async showError() {
+  private async showError(): Promise<void> {
     const alert = await this.alertCtrl.create({
       header: 'Error',
       message: 'Username already taken',

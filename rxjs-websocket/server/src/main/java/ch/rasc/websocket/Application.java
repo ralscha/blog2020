@@ -43,9 +43,9 @@ public class Application implements WebSocketConfigurer {
   @Override
   public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
     registry.addHandler(registryHandler(), "/sensor")
-        .setAllowedOrigins("http://localhost:4200");
+        .setAllowedOrigins("http://localhost:1234");
     registry.addHandler(calculatorHandler(), "/calculator")
-        .setAllowedOrigins("http://localhost:4200");
+        .setAllowedOrigins("http://localhost:1234");
   }
 
 }

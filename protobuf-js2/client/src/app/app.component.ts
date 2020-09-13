@@ -15,7 +15,7 @@ export class AppComponent {
   constructor(private readonly httpClient: HttpClient) {
   }
 
-  submit(formValues: { firstname: string, lastname: string, age: number, gender: string }) {
+  submit(formValues: { firstname: string, lastname: string, age: number, gender: string }): void {
 
     const encodedUserRequest = UserRequest.encode({
       firstname: formValues.firstname,
@@ -44,12 +44,13 @@ export class AppComponent {
     return UserResponse.decode(new Uint8Array(response));
   }
 
-  handleResponse(userResponse: IUserResponse) {
+  handleResponse(userResponse: IUserResponse): void {
     console.log(`ID: ${userResponse.id}`);
     console.log(`Status: ${userResponse.status === UserResponse.Status.OK ? 'OK' : 'NOT_OK'}`);
   }
 
-  handleError(error): Observable<any> {
+  // tslint:disable-next-line:no-any
+  handleError(error: any): Observable<any> {
     console.error(error);
     return throwError(error || 'Server error');
   }

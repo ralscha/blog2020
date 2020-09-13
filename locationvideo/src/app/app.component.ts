@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MapAnchorPoint, MapInfoWindow, MapMarker} from '@angular/google-maps';
+import {MapInfoWindow, MapMarker} from '@angular/google-maps';
 import {YouTubePlayer} from '@angular/youtube-player';
 
 type MarkerObject = {
@@ -15,11 +15,11 @@ type MarkerObject = {
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
+  @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
 
-  videoId: string = null;
+  videoId: string | null = null;
 
-  @ViewChild(YouTubePlayer) youtubePlayer: YouTubePlayer;
+  @ViewChild(YouTubePlayer) youtubePlayer!: YouTubePlayer;
 
   markers: MarkerObject[] = [{
     option: {title: 'Paradise Beach', position: {lat: 13.6131648, lng: 98.1379005}},
@@ -81,15 +81,15 @@ export class AppComponent implements OnInit {
 
   center = {lat: 19.689138, lng: 95.970246};
   zoom = 6;
-  info: string = null;
+  info: string | null = null;
 
-  ngOnInit() {
+  ngOnInit(): void {
     const tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/iframe_api';
     document.body.appendChild(tag);
   }
 
-  openInfoWindow(markerElement: any, marker: MarkerObject) {
+  openInfoWindow(markerElement: MapMarker, marker: MarkerObject): void {
     if (this.youtubePlayer
       && this.youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
       this.youtubePlayer.stopVideo();
@@ -100,11 +100,11 @@ export class AppComponent implements OnInit {
     this.infoWindow.open(markerElement);
   }
 
-  onReady(event: YT.PlayerEvent) {
+  onReady(event: YT.PlayerEvent): void {
     event.target.playVideo();
   }
 
-  onStateChange(event: YT.OnStateChangeEvent) {
+  onStateChange(event: YT.OnStateChangeEvent): void {
     if (event.data === YT.PlayerState.CUED) {
       event.target.playVideo();
     }

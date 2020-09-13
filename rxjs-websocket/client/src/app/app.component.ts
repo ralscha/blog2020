@@ -1,7 +1,7 @@
 import {Component, OnDestroy} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {catchError, concatMap, delay, filter, retryWhen, tap} from 'rxjs/operators';
-import {Observable, of, race, Subject, Subscription, timer} from 'rxjs';
+import {Observable, of, race, Subject, Subscription, throwError, timer} from 'rxjs';
 import format from 'date-fns/format';
 import {Calculation, Result} from './protos/calculator';
 import Operation = Calculation.Operation;
@@ -12,15 +12,16 @@ import Operation = Calculation.Operation;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
-  options;
-  mergeOptions;
+  options: object;
+  mergeOptions: object;
   type: 'temp' | 'hum' = 'temp';
   connected = false;
   networkError = false;
 
-  private webSocketSubject: WebSocketSubject<any> = null;
-  private heartbeatSubscription: Subscription;
-  private dataSubscription: Subscription;
+  // tslint:disable-next-line:no-any
+  private webSocketSubject: WebSocketSubject<any> | null = null;
+  private heartbeatSubscription: Subscription | null = null;
+  private dataSubscription: Subscription | null = null;
 
   private tempOptions = {
     series: [{
@@ -64,14 +65,12 @@ export class AppComponent implements OnDestroy {
     this.options = this.tempOptions;
     this.mergeOptions = {series: {data: [{value: NaN, name: ''}]}};
 
-
     const webSocketSubject = webSocket('ws://localhost:8080/sensor');
     webSocketSubject.pipe(retryWhen((errors) => errors.pipe(delay(10_000))))
       .subscribe(value => console.log(value));
-
   }
 
-  startHeartbeat() {
+  startHeartbeat(): void {
     this.stopHeartbeat();
     this.networkError = false;
 
@@ -91,19 +90,19 @@ export class AppComponent implements OnDestroy {
         this.networkError = false;
       } else {
         this.networkError = true;
-        this.webSocketSubject.complete();
+        this.webSocketSubject?.complete();
         this.webSocketSubject = null;
       }
     });
   }
 
-  stopHeartbeat() {
+  stopHeartbeat(): void {
     if (this.heartbeatSubscription) {
       this.heartbeatSubscription.unsubscribe();
     }
   }
 
-  toggleConnection() {
+  toggleConnection(): void {
     if (this.connected) {
       this.disconnect();
       this.connected = false;
@@ -114,7 +113,7 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  switchGauge() {
+  switchGauge(): void {
     if (this.type === 'temp') {
       this.options = this.tempOptions;
     } else {
@@ -127,6 +126,7 @@ export class AppComponent implements OnDestroy {
 
   }
 
+  // tslint:disable-next-line:no-any
   connect(): WebSocketSubject<any> {
     if (!this.webSocketSubject) {
       const closeSubject = new Subject<CloseEvent>();
@@ -152,7 +152,7 @@ export class AppComponent implements OnDestroy {
     return this.webSocketSubject;
   }
 
-  disconnect() {
+  disconnect(): void {
     if (this.webSocketSubject) {
       this.stopHeartbeat();
       this.networkError = false;
@@ -162,11 +162,11 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.disconnect();
   }
 
-  sendCalculation() {
+  sendCalculation(): void {
     /*
     const w = new WebSocket('ws://localhost:8080/calculator');
     w.binaryType = 'arraybuffer';
@@ -187,7 +187,7 @@ export class AppComponent implements OnDestroy {
     const operatorElement = document.getElementById('operator') as HTMLInputElement;
     const resultElement = document.getElementById('result') as HTMLInputElement;
 
-    let operation;
+    let operation: number;
     switch (operatorElement.value) {
       case 'Addition':
         operation = Operation.Addition;
@@ -258,7 +258,11 @@ export class AppComponent implements OnDestroy {
     */
   }
 
+  // tslint:disable-next-line:no-any
   private getDataObservable(): Observable<any> {
+    if (!this.webSocketSubject) {
+      return throwError(new Error('websocket subject not set'));
+    }
     if (this.type === 'temp') {
       return this.webSocketSubject.multiplex(() => 'subscribe-temp', () => 'unsubscribe-temp', message => message.temperature);
     } else {
@@ -266,7 +270,7 @@ export class AppComponent implements OnDestroy {
     }
   }
 
-  private startListening() {
+  private startListening(): void {
     if (this.dataSubscription) {
       this.dataSubscription.unsubscribe();
     }

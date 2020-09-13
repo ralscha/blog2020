@@ -1,3 +1,4 @@
+// tslint:disable:no-any
 import * as $protobuf from 'protobufjs';
 
 export interface ICalculation {
@@ -32,6 +33,7 @@ export class Calculation implements ICalculation {
   public toJSON(): { [k: string]: any };
 }
 
+// tslint:disable-next-line:no-namespace
 export namespace Calculation {
 
   enum Operation {

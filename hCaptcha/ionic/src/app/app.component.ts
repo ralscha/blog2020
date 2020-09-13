@@ -14,7 +14,7 @@ export class AppComponent {
               private toastController: ToastController) {
   }
 
-  submit(form: NgForm) {
+  submit(form: NgForm): void {
     const formData = new FormData();
     formData.append('email', form.value.email);
     formData.append('username', form.value.username);

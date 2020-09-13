@@ -13,7 +13,7 @@ export class UsersPage {
               private readonly navCtrl: NavController) {
   }
 
-  signout() {
+  signout(): void {
     this.chatService.signout();
     this.navCtrl.navigateRoot('sign-in');
   }

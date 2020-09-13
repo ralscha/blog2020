@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
+// @ts-ignore
 import cettia from 'cettia-client/cettia-bundler';
 import {BehaviorSubject} from 'rxjs';
 import {Message} from '../models/message';
@@ -11,28 +12,31 @@ import {EncryptedMessage} from '../models/encrypted-message';
 })
 export class ChatService {
 
-  room: string;
-  username: string;
+  room: string | null = null;
+  username: string | null = null;
 
   usersSubject = new BehaviorSubject<User[]>([]);
   messagesSubject = new BehaviorSubject<Message[]>([]);
 
+  // tslint:disable-next-line:no-any
   private socket: any = null;
+  // tslint:disable-next-line:no-any
   private cache: any[] = [];
 
-  private generateKeyPairPromise: Promise<ArrayBuffer>;
-  private myKeyPair: CryptoKeyPair;
-  private generateSharedKeysPromise: Promise<any>;
+  private generateKeyPairPromise!: Promise<ArrayBuffer>;
+  private myKeyPair!: CryptoKeyPair;
+  private generateSharedKeysPromise: Promise<void[] | void> | null = null;
 
   private textDecoder: TextDecoder = new TextDecoder();
   private textEncoder: TextEncoder = new TextEncoder();
 
-  init() {
+  init(): void {
     this.generateKeyPairPromise = this.generateKeyPair();
 
     this.socket = cettia.open(`${environment.SERVER_URL}/cettia`);
 
-    this.socket.on('cache', args => this.cache.push(args));
+    // tslint:disable-next-line:no-any
+    this.socket.on('cache', (args: any) => this.cache.push(args));
     this.socket.on('open', () => {
       while (this.socket.state() === 'opened' && this.cache.length) {
         const args = this.cache.shift();
@@ -40,8 +44,8 @@ export class ChatService {
       }
     });
 
-    this.socket.on('users', rooms => {
-      this.usersSubject.next(rooms);
+    this.socket.on('users', (users: User[]) => {
+      this.usersSubject.next(users);
       this.generateSharedKeysPromise = this.generateSharedKeys();
     });
 
@@ -51,7 +55,7 @@ export class ChatService {
       this.generateSharedKeysPromise = this.generateKeyPairPromise.then(() => this.generateSharedKey(user));
     });
 
-    this.socket.on('leave', username => {
+    this.socket.on('leave', (username: string) => {
       this.usersSubject.next([...this.usersSubject.getValue().filter(u => u.username !== username)]);
       this.addMessage({type: 'SYSTEM', user: username, msg: 'has left the room', ts: Math.floor(Date.now() / 1000)});
     });
@@ -74,13 +78,13 @@ export class ChatService {
     this.username = username;
 
     return new Promise<boolean>(resolve => {
-      this.socket.send('join', {username, room, publicKey: new Uint8Array(rawPublicKey)}, ok => {
+      this.socket.send('join', {username, room, publicKey: new Uint8Array(rawPublicKey)}, (ok: boolean) => {
         resolve(ok);
       });
     });
   }
 
-  signout() {
+  signout(): void {
     if (this.socket !== null) {
       this.socket.send('leave', () => {
         this.socket.close();
@@ -93,7 +97,11 @@ export class ChatService {
     this.messagesSubject.next([]);
   }
 
-  send(msg: string) {
+  send(msg: string): void {
+    if (this.username === null) {
+      throw new Error('username not set');
+    }
+
     const ts = Math.floor(Date.now() / 1000);
 
     for (const user of this.usersSubject.getValue().filter(u => u.username !== this.username)) {
@@ -104,7 +112,7 @@ export class ChatService {
     this.addMessage({ts, msg, user: this.username, type: 'MSG', img: 'guy1.png'});
   }
 
-  private addMessage(newMessage: Message) {
+  private addMessage(newMessage: Message): void {
     const messages = this.messagesSubject.getValue();
     messages.push(newMessage);
 
@@ -138,8 +146,17 @@ export class ChatService {
   }
 
   private async encrypt(toUsername: string, plainTextMsg: string): Promise<Uint8Array> {
+
+    if (!this.username) {
+      throw new Error('username not set');
+    }
+
     await this.generateKeyPairPromise;
     const user = this.usersSubject.getValue().find(u => u.username === toUsername);
+
+    if (!user?.sharedKey) {
+      throw new Error('shared key not set');
+    }
 
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
@@ -155,6 +172,10 @@ export class ChatService {
   private async decrypt(fromUsername: string, encryptedMsg: Uint8Array): Promise<string> {
     await this.generateKeyPairPromise;
     const user = this.usersSubject.getValue().find(u => u.username === fromUsername);
+
+    if (!user?.sharedKey) {
+      throw new Error('shared key not set');
+    }
 
     const iv = encryptedMsg.slice(0, 12);
     const data = encryptedMsg.slice(12);
