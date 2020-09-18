@@ -12,6 +12,7 @@ import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
 import com.drew.lang.GeoLocation;
 import com.drew.metadata.Metadata;
+import com.drew.metadata.exif.ExifDirectoryBase;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.drew.metadata.exif.GpsDirectory;
 
@@ -48,7 +49,7 @@ public class Extract {
 
 				ExifIFD0Directory directory = metadata
 						.getFirstDirectoryOfType(ExifIFD0Directory.class);
-				Date date = directory.getDate(ExifIFD0Directory.TAG_DATETIME);
+				Date date = directory.getDate(ExifDirectoryBase.TAG_DATETIME);
 
 				if (gpsDirectory != null) {
 					GeoLocation geoLocation = gpsDirectory.getGeoLocation();
