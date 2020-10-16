@@ -24,7 +24,7 @@
     "lg-autoplay.js": "1.2.0",
     "lg-fullscreen.js": "1.2.0",
     "lg-zoom.js": "1.2.0",
-    "lightgallery.js": "1.3.1"
+    "lightgallery.js": "1.4.0"
   },
   "browserslist": [
     "> 1%",
