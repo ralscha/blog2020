@@ -4,7 +4,7 @@ import {AppComponent} from './app.component';
 import {NgxEchartsModule} from 'ngx-echarts';
 import {FormsModule} from '@angular/forms';
 // @ts-ignore
-import * as echarts from 'echarts';
+import * as echarts from 'echarts/echarts.all.js';
 
 @NgModule({
   declarations: [

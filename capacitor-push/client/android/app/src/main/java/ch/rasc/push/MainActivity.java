@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.getcapacitor.BridgeActivity;
 import com.getcapacitor.Plugin;
-import io.stewan.capacitor.fcm.FCMPlugin;
+import com.getcapacitor.community.fcm.FCMPlugin;
 
 import java.util.ArrayList;
 

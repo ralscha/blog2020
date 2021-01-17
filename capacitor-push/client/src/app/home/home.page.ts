@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {LocalNotificationActionPerformed, Plugins, PushNotificationActionPerformed} from '@capacitor/core';
-import {FCM} from 'capacitor-fcm';
+import {FCM} from '@capacitor-community/fcm';
 
 const fcm = new FCM();
 
@@ -75,7 +75,7 @@ export class HomePage {
     }
   }
 
-  handleNotification(data: { text: string, id: number}): void {
+  handleNotification(data: { text: string, id: number }): void {
     if (!data.text) {
       return;
     }
