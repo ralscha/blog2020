@@ -18,9 +18,9 @@ export class ChatService {
   usersSubject = new BehaviorSubject<User[]>([]);
   messagesSubject = new BehaviorSubject<Message[]>([]);
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private socket: any = null;
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cache: any[] = [];
 
   private generateKeyPairPromise!: Promise<ArrayBuffer>;
@@ -35,7 +35,7 @@ export class ChatService {
 
     this.socket = cettia.open(`${environment.SERVER_URL}/cettia`);
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.socket.on('cache', (args: any) => this.cache.push(args));
     this.socket.on('open', () => {
       while (this.socket.state() === 'opened' && this.cache.length) {
@@ -51,7 +51,12 @@ export class ChatService {
 
     this.socket.on('join', (user: User) => {
       this.usersSubject.next([user, ...this.usersSubject.getValue()]);
-      this.addMessage({type: 'SYSTEM', user: user.username, msg: 'has joined the room', ts: Math.floor(Date.now() / 1000)});
+      this.addMessage({
+        type: 'SYSTEM',
+        user: user.username,
+        msg: 'has joined the room',
+        ts: Math.floor(Date.now() / 1000)
+      });
       this.generateSharedKeysPromise = this.generateKeyPairPromise.then(() => this.generateSharedKey(user));
     });
 
@@ -122,7 +127,10 @@ export class ChatService {
 
   private async generateKeyPair(): Promise<ArrayBuffer> {
     try {
-      this.myKeyPair = await window.crypto.subtle.generateKey({name: 'ECDH', namedCurve: 'P-256'}, false, ['deriveKey']);
+      this.myKeyPair = await window.crypto.subtle.generateKey({
+        name: 'ECDH',
+        namedCurve: 'P-256'
+      }, false, ['deriveKey']);
       return await window.crypto.subtle.exportKey('raw', this.myKeyPair.publicKey);
     } catch (err) {
       throw err;
@@ -166,7 +174,7 @@ export class ChatService {
       this.textEncoder.encode(plainTextMsg)
     );
 
-    return this.concatUint8Array(iv, new Uint8Array(encryptedMsg));
+    return ChatService.concatUint8Array(iv, new Uint8Array(encryptedMsg));
   }
 
   private async decrypt(fromUsername: string, encryptedMsg: Uint8Array): Promise<string> {
@@ -189,7 +197,7 @@ export class ChatService {
     return this.textDecoder.decode(plainTextArrayBuffer);
   }
 
-  private concatUint8Array(...arrays: Uint8Array[]): Uint8Array {
+  private static concatUint8Array(...arrays: Uint8Array[]): Uint8Array {
     let totalLength = 0;
     for (const arr of arrays) {
       totalLength += arr.length;
