@@ -49,9 +49,8 @@ export class AppComponent {
     console.log(`Status: ${userResponse.status === UserResponse.Status.OK ? 'OK' : 'NOT_OK'}`);
   }
 
-  // tslint:disable-next-line:no-any
   handleError(error: any): Observable<any> {
     console.error(error);
-    return throwError(error || 'Server error');
+    return throwError(() => error || 'Server error');
   }
 }

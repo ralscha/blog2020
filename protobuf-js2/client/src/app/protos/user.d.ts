@@ -1,4 +1,4 @@
-// tslint:disable:no-any
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as $protobuf from 'protobufjs';
 
 export interface IUserRequest {
@@ -35,7 +35,7 @@ export class UserRequest implements IUserRequest {
   public toJSON(): { [k: string]: any };
 }
 
-// tslint:disable-next-line:no-namespace
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserRequest {
 
   enum Gender {
@@ -74,7 +74,7 @@ export class UserResponse implements IUserResponse {
   public toJSON(): { [k: string]: any };
 }
 
-// tslint:disable-next-line:no-namespace
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserResponse {
 
   enum Status {
