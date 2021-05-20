@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  SITE_KEY: '3f7f821f-05b7-486b-a3d9-21395609a73e'
+  SITE_KEY: 'c8fd9ef9-8fec-46b2-9894-9a9de2206b4d'
 };
 
 /*
@@ -14,4 +14,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
