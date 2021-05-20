@@ -18,8 +18,14 @@ export class SignInPage implements OnInit {
     {language: 'ar', name: 'Arabic'}, {language: 'hy', name: 'Armenian'}, {language: 'az', name: 'Azerbaijani'},
     {language: 'eu', name: 'Basque'}, {language: 'be', name: 'Belarusian'}, {language: 'bn', name: 'Bengali'},
     {language: 'bs', name: 'Bosnian'}, {language: 'bg', name: 'Bulgarian'}, {language: 'ca', name: 'Catalan'},
-    {language: 'ceb', name: 'Cebuano'}, {language: 'ny', name: 'Chichewa'}, {language: 'zh', name: 'Chinese (Simplified)'},
-    {language: 'zh-TW', name: 'Chinese (Traditional)'}, {language: 'co', name: 'Corsican'}, {language: 'hr', name: 'Croatian'},
+    {language: 'ceb', name: 'Cebuano'}, {language: 'ny', name: 'Chichewa'}, {
+      language: 'zh',
+      name: 'Chinese (Simplified)'
+    },
+    {language: 'zh-TW', name: 'Chinese (Traditional)'}, {language: 'co', name: 'Corsican'}, {
+      language: 'hr',
+      name: 'Croatian'
+    },
     {language: 'cs', name: 'Czech'}, {language: 'da', name: 'Danish'}, {language: 'nl', name: 'Dutch'},
     {language: 'en', name: 'English'}, {language: 'eo', name: 'Esperanto'}, {language: 'et', name: 'Estonian'},
     {language: 'tl', name: 'Filipino'}, {language: 'fi', name: 'Finnish'}, {language: 'fr', name: 'French'},

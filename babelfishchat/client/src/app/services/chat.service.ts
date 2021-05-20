@@ -16,15 +16,15 @@ export class ChatService {
   usersSubject = new BehaviorSubject<string[]>([]);
   messagesSubject = new BehaviorSubject<Message[]>([]);
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private socket: any = null;
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private cache: any[] = [];
 
   init(): void {
     this.socket = cettia.open(`${environment.SERVER_URL}/cettia`);
 
-    // tslint:disable-next-line:no-any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     this.socket.on('cache', (args: any) => this.cache.push(args));
     this.socket.on('open', () => {
       while (this.socket.state() === 'opened' && this.cache.length) {
