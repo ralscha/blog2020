@@ -4,6 +4,7 @@ import {catchError, concatMap, delay, filter, retryWhen, tap} from 'rxjs/operato
 import {Observable, of, race, Subject, Subscription, throwError, timer} from 'rxjs';
 import format from 'date-fns/format';
 import {Calculation, Result} from './protos/calculator';
+import {EChartsOption} from 'echarts';
 import Operation = Calculation.Operation;
 
 @Component({
@@ -12,18 +13,18 @@ import Operation = Calculation.Operation;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnDestroy {
-  options: object;
-  mergeOptions: object;
+  options: EChartsOption;
+  mergeOptions: EChartsOption;
   type: 'temp' | 'hum' = 'temp';
   connected = false;
   networkError = false;
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private webSocketSubject: WebSocketSubject<any> | null = null;
   private heartbeatSubscription: Subscription | null = null;
   private dataSubscription: Subscription | null = null;
 
-  private tempOptions = {
+  private tempOptions: EChartsOption = {
     series: [{
       name: 'Temperature',
       type: 'gauge',
@@ -42,7 +43,7 @@ export class AppComponent implements OnDestroy {
     }]
   };
 
-  private humOptions = {
+  private humOptions: EChartsOption = {
     series: [{
       name: 'Humidity',
       type: 'gauge',
@@ -80,7 +81,7 @@ export class AppComponent implements OnDestroy {
         concatMap(_ => {
           return race(
             of('timeout').pipe(delay(3_000)),
-            this.connect().pipe(filter(m => m === 'pong'), catchError(error => of('error')))
+            this.connect().pipe(filter(m => m === 'pong'), catchError(() => of('error')))
           );
         })
       );
@@ -126,7 +127,7 @@ export class AppComponent implements OnDestroy {
 
   }
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   connect(): WebSocketSubject<any> {
     if (!this.webSocketSubject) {
       const closeSubject = new Subject<CloseEvent>();
@@ -258,10 +259,10 @@ export class AppComponent implements OnDestroy {
     */
   }
 
-  // tslint:disable-next-line:no-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private getDataObservable(): Observable<any> {
     if (!this.webSocketSubject) {
-      return throwError(new Error('websocket subject not set'));
+      return throwError(() => new Error('websocket subject not set'));
     }
     if (this.type === 'temp') {
       return this.webSocketSubject.multiplex(() => 'subscribe-temp', () => 'unsubscribe-temp', message => message.temperature);
