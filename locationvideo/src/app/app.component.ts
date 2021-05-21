@@ -44,8 +44,8 @@ export class AppComponent implements OnInit {
     info: 'Aerial view over Inle lake'
   }, {
     option: {title: 'Ngapali', position: {lat: 18.3962266, lng: 94.335431}},
-    videoId: 'Y3bMEJYIrvw',
-    info: 'Beautiful beach in Myanmar'
+    videoId: 'D-qP8DKShME',
+    info: 'Drone shot'
   }, {
     option: {title: 'Mandalay', position: {lat: 21.9405043, lng: 96.0057839}},
     videoId: 'HabG0k6Ycvw',
