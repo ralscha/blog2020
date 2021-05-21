@@ -9,15 +9,15 @@
 	<name>geophoto</name>
 
 	<properties>
-		<maven.compiler.target>14</maven.compiler.target>
-		<maven.compiler.source>14</maven.compiler.source>
+		<maven.compiler.target>16</maven.compiler.target>
+		<maven.compiler.source>16</maven.compiler.source>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.drewnoakes</groupId>
 			<artifactId>metadata-extractor</artifactId>
-			<version>2.15.0</version>
+			<version>2.16.0</version>
 		</dependency>
 		<dependency>
 			<groupId>net.coobird</groupId>
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.glassfish</groupId>
 			<artifactId>jakarta.json</artifactId>
-			<version>2.0.0</version>
+			<version>2.0.1</version>
 		</dependency>		
 	</dependencies>
 
