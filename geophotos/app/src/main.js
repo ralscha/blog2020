@@ -1,5 +1,5 @@
 import { HTMLMapMarker } from './HTMLMapMarker.js';
-import MarkerClusterer from '@google/markerclustererplus';
+import MarkerClusterer from '@googlemaps/markerclustererplus';
 import format from 'date-fns/format'
 import 'lightgallery.js';
 import 'lg-fullscreen.js';
