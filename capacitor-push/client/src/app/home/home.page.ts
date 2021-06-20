@@ -2,10 +2,9 @@ import {ChangeDetectorRef, Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
-import {LocalNotificationActionPerformed, Plugins, PushNotificationActionPerformed} from '@capacitor/core';
+import {ActionPerformed, PushNotifications} from '@capacitor/push-notifications';
 import {FCM} from '@capacitor-community/fcm';
-
-const fcm = new FCM();
+import {ActionPerformed as LocalActionPerformed, LocalNotifications} from '@capacitor/local-notifications';
 
 @Component({
   selector: 'app-home',
@@ -34,34 +33,42 @@ export class HomePage {
   }
 
   async register(): Promise<void> {
-    await Plugins.PushNotifications.register();
-    const {token} = await fcm.getToken();
+    await PushNotifications.register();
+    const {token} = await FCM.getToken();
     const formData = new FormData();
     formData.append('token', token);
     this.http.post(`${environment.serverURL}/register`, formData)
       .pipe(timeout(10000))
-      .subscribe(() => localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal)),
-        _ => this.allowPersonal = !this.allowPersonal);
+      .subscribe(
+        {
+          next: () => localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal)),
+          error: () => this.allowPersonal = !this.allowPersonal
+        }
+      );
   }
 
   async unregister(): Promise<void> {
-    await Plugins.PushNotifications.register();
-    const {token} = await fcm.getToken();
+    await PushNotifications.register();
+    const {token} = await FCM.getToken();
     const formData = new FormData();
     formData.append('token', token);
     this.http.post(`${environment.serverURL}/unregister`, formData)
       .pipe(timeout(10000))
-      .subscribe(() => localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal)),
-        _ => this.allowPersonal = !this.allowPersonal);
+      .subscribe(
+        {
+          next: () => localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal)),
+          error: () => this.allowPersonal = !this.allowPersonal
+        }
+      );
   }
 
   onChange(): void {
     localStorage.setItem('allowPush', JSON.stringify(this.allowPush));
 
     if (this.allowPush) {
-      fcm.subscribeTo({topic: this.TOPIC_NAME});
+      FCM.subscribeTo({topic: this.TOPIC_NAME});
     } else {
-      fcm.unsubscribeFrom({topic: this.TOPIC_NAME});
+      FCM.unsubscribeFrom({topic: this.TOPIC_NAME});
     }
   }
 
@@ -91,17 +98,17 @@ export class HomePage {
   }
 
   private async initFCM(): Promise<void> {
-    await Plugins.PushNotifications.register();
+    await PushNotifications.requestPermissions();
 
-    Plugins.PushNotifications.addListener('registrationError',
+    PushNotifications.addListener('registrationError',
       error => console.log('Error on registration: ' + JSON.stringify(error)));
 
     // Only called when app in foreground
-    Plugins.PushNotifications.addListener('pushNotificationReceived',
+    PushNotifications.addListener('pushNotificationReceived',
       notification => {
         this.handleNotification(notification.data);
 
-        Plugins.LocalNotifications.schedule({
+        LocalNotifications.schedule({
           notifications: [{
             title: notification.title ?? '',
             body: notification.body ?? '',
@@ -114,15 +121,15 @@ export class HomePage {
     );
 
     // called when app in background and user taps on notification
-    Plugins.PushNotifications.addListener('pushNotificationActionPerformed',
-      (event: PushNotificationActionPerformed) => {
+    PushNotifications.addListener('pushNotificationActionPerformed',
+      (event: ActionPerformed) => {
         this.handleNotification(event.notification.data);
       }
     );
 
     // called when app in foreground and user taps on local notification
-    Plugins.LocalNotifications.addListener('localNotificationActionPerformed',
-      (event: LocalNotificationActionPerformed) => {
+    LocalNotifications.addListener('localNotificationActionPerformed',
+      (event: LocalActionPerformed) => {
         this.handleNotification(event.notification.extra);
       });
 
