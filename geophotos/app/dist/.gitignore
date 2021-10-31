@@ -1,10 +1,6 @@
-/index.html*
+/index.*
 /main*
 /lg.*
 /loading.*
 /*.png
-/favicon.ico.br
-/favicon.ico.gz
-/favicon.e7a3857e.ico
-/favicon.e7a3857e.ico.br
-/favicon.e7a3857e.ico.gz
+/favicon.*
