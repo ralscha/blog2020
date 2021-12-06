@@ -1,1 +1,1 @@
-Code for blog post: 
+Code for blog post: https://golb.hplar.ch/2021/11/go-tls-localhost.html
