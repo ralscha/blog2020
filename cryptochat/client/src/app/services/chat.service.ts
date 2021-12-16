@@ -131,7 +131,7 @@ export class ChatService {
         name: 'ECDH',
         namedCurve: 'P-256'
       }, false, ['deriveKey']);
-      return await window.crypto.subtle.exportKey('raw', this.myKeyPair.publicKey);
+      return await window.crypto.subtle.exportKey('raw', this.myKeyPair!.publicKey!);
     } catch (err) {
       throw err;
     }
@@ -148,7 +148,7 @@ export class ChatService {
 
     user.sharedKey = await window.crypto.subtle.deriveKey(
       {name: 'ECDH', public: publicKey},
-      this.myKeyPair.privateKey,
+      this.myKeyPair!.privateKey!,
       {name: 'AES-GCM', length: 256}, false, ['encrypt', 'decrypt']
     );
   }
