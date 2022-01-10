@@ -53,3 +53,17 @@ cd D:\ws\blog2020\rxjs-websocket\client
 call ncu
 cd D:\ws\blog2020\rxjs-websocket\server
 call checkdep
+
+
+cd D:\ws\blog2020\golambda\arm\infra
+call make upgrade-libraries
+cd D:\ws\blog2020\golambda\arm\lambda
+call make upgrade-libraries
+cd D:\ws\blog2020\golambda\cloudwatch_cleanup\infra
+call make upgrade-libraries
+cd D:\ws\blog2020\golambda\cloudwatch_cleanup\lambda
+call make upgrade-libraries
+cd D:\ws\blog2020\golambda\helloworld\infra
+call make upgrade-libraries
+cd D:\ws\blog2020\golambda\helloworld\lambda
+call make upgrade-libraries
