@@ -21,6 +21,9 @@
         <ion-checkbox (ionChange)="onPmChange()" [(ngModel)]="allowPersonal"></ion-checkbox>
       </ion-col>
     </ion-row>
+    <ion-row *ngIf="errorMessage">
+      <ion-col size="12">{{ errorMessage }}</ion-col>
+    </ion-row>
   </ion-grid>
 
   <ion-list>

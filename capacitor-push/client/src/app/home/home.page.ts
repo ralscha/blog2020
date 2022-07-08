@@ -5,6 +5,7 @@ import {environment} from '../../environments/environment';
 import {ActionPerformed, PushNotifications} from '@capacitor/push-notifications';
 import {FCM} from '@capacitor-community/fcm';
 import {ActionPerformed as LocalActionPerformed, LocalNotifications} from '@capacitor/local-notifications';
+import {Capacitor} from '@capacitor/core';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import {ActionPerformed as LocalActionPerformed, LocalNotifications} from '@capa
 })
 export class HomePage {
 
+  errorMessage: string = "";
   allowPush: boolean;
   allowPersonal: boolean;
   items: { id: number, text: string }[] = [];
@@ -33,8 +35,7 @@ export class HomePage {
   }
 
   async register(): Promise<void> {
-    await PushNotifications.register();
-    const {token} = await FCM.getToken();
+    const token = await this.getFcmToken();
     const formData = new FormData();
     formData.append('token', token);
     this.http.post(`${environment.serverURL}/register`, formData)
@@ -42,14 +43,13 @@ export class HomePage {
       .subscribe(
         {
           next: () => localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal)),
-          error: () => this.allowPersonal = !this.allowPersonal
+          error: err => this.errorMessage = err.message
         }
       );
   }
 
   async unregister(): Promise<void> {
-    await PushNotifications.register();
-    const {token} = await FCM.getToken();
+    const token = await this.getFcmToken();
     const formData = new FormData();
     formData.append('token', token);
     this.http.post(`${environment.serverURL}/unregister`, formData)
@@ -57,7 +57,7 @@ export class HomePage {
       .subscribe(
         {
           next: () => localStorage.setItem('allowPersonal', JSON.stringify(this.allowPersonal)),
-          error: () => this.allowPersonal = !this.allowPersonal
+          error: err => this.errorMessage = err.message
         }
       );
   }
@@ -135,4 +135,60 @@ export class HomePage {
 
   }
 
+  // https://github.com/capacitor-community/fcm/issues/99
+  /**
+   * Returns `true` if the user gave permission or false otherwise.
+   */
+  async askFcmPermission(): Promise<boolean> {
+    const checked = await PushNotifications.checkPermissions()
+    let status: 'prompt' | 'prompt-with-rationale' | 'granted' | 'denied' = checked.receive
+
+    if (status === 'prompt' || status === 'prompt-with-rationale') {
+      const requested = await PushNotifications.requestPermissions()
+      status = requested.receive
+    }
+
+    return status === 'granted'
+  }
+
+  /**
+   * Gets the FCM token in a non-breaking way.
+   *
+   * - For iOS we must use the `FCM` plugin, because `PushNotifications` returns the wrong APN token.
+   * - For Android we must use `PushNotifications`, because `FCM` is broken for Android.
+   * @see https://github.com/capacitor-community/fcm/issues/99
+   */
+  getFcmToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (Capacitor.getPlatform() === 'web') return resolve('')
+
+      PushNotifications.addListener('registration', ({ value }) => {
+        if (Capacitor.getPlatform() === 'android') {
+          resolve(value)
+          return
+        }
+
+        // Get FCM token instead the APN one returned by Capacitor
+        if (Capacitor.getPlatform() === 'ios') {
+          FCM.getToken()
+            .then(({ token }) => resolve(token))
+            .catch((error) => reject(error))
+          return
+        }
+
+        // will never come here
+        reject(new Error('?'))
+      })
+
+      this.askFcmPermission()
+        .then((granted) => {
+          if (granted) {
+            PushNotifications.register().catch((error) => reject(error))
+          } else {
+            reject(new Error('denied'))
+          }
+        })
+        .catch((error) => reject(error))
+    })
+  }
 }
