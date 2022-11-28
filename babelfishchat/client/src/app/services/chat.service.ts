@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-// @ts-ignore
 import cettia from 'cettia-client/cettia-bundler';
 import {BehaviorSubject} from 'rxjs';
 import {Message} from '../models/message';
@@ -29,6 +28,7 @@ export class ChatService {
     this.socket.on('open', () => {
       while (this.socket.state() === 'opened' && this.cache.length) {
         const args = this.cache.shift();
+        // eslint-disable-next-line prefer-spread
         this.socket.send.apply(this.socket, args);
       }
     });

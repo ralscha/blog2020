@@ -78,7 +78,7 @@ export class AppComponent implements OnDestroy {
     const heartbeat$ = timer(1_000, 30_000)
       .pipe(
         tap(() => this.connect().next('ping')),
-        concatMap(_ => {
+        concatMap(() => {
           return race(
             of('timeout').pipe(delay(3_000)),
             this.connect().pipe(filter(m => m === 'pong'), catchError(() => of('error')))
@@ -131,7 +131,7 @@ export class AppComponent implements OnDestroy {
   connect(): WebSocketSubject<any> {
     if (!this.webSocketSubject) {
       const closeSubject = new Subject<CloseEvent>();
-      closeSubject.subscribe(_ => {
+      closeSubject.subscribe(() => {
         this.webSocketSubject = null;
         if (this.connected) {
           this.networkError = true;

@@ -21,7 +21,7 @@ export class MessagesPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.mutationObserver = new MutationObserver(_ => {
+    this.mutationObserver = new MutationObserver(() => {
       setTimeout(() => {
         this.content.scrollToBottom();
       }, 100);

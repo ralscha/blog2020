@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
-// @ts-ignore
 import cettia from 'cettia-client/cettia-bundler';
 import {BehaviorSubject} from 'rxjs';
 import {Message} from '../models/message';
@@ -40,6 +39,7 @@ export class ChatService {
     this.socket.on('open', () => {
       while (this.socket.state() === 'opened' && this.cache.length) {
         const args = this.cache.shift();
+        // eslint-disable-next-line prefer-spread
         this.socket.send.apply(this.socket, args);
       }
     });
@@ -126,15 +126,14 @@ export class ChatService {
   }
 
   private async generateKeyPair(): Promise<ArrayBuffer> {
-    try {
-      this.myKeyPair = await window.crypto.subtle.generateKey({
-        name: 'ECDH',
-        namedCurve: 'P-256'
-      }, false, ['deriveKey']);
-      return await window.crypto.subtle.exportKey('raw', this.myKeyPair!.publicKey!);
-    } catch (err) {
-      throw err;
+    this.myKeyPair = await window.crypto.subtle.generateKey({
+      name: 'ECDH',
+      namedCurve: 'P-256'
+    }, false, ['deriveKey']);
+    if (this.myKeyPair) {
+      return await window.crypto.subtle.exportKey('raw', this.myKeyPair.publicKey);
     }
+    throw new Error('Key pair generation failed');
   }
 
   private async generateSharedKeys(): Promise<void[]> {

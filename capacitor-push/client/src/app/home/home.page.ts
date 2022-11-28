@@ -14,7 +14,7 @@ import {Capacitor} from '@capacitor/core';
 })
 export class HomePage {
 
-  errorMessage: string = "";
+  errorMessage = "";
   allowPush: boolean;
   allowPersonal: boolean;
   items: { id: number, text: string }[] = [];
