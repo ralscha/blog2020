@@ -10,29 +10,28 @@ import ch.rasc.hashupgrade.entity.QUser;
 
 @Component
 public class JpaUserDetailsPasswordService implements UserDetailsPasswordService {
-	private final UserDetailsService userDetailsService;
+  private final UserDetailsService userDetailsService;
 
-	private final JPAQueryFactory jpaQueryFactory;
+  private final JPAQueryFactory jpaQueryFactory;
 
-	private final TransactionTemplate transactionTemplate;
+  private final TransactionTemplate transactionTemplate;
 
-	public JpaUserDetailsPasswordService(UserDetailsService userDetailsService,
-			JPAQueryFactory jpaQueryFactory, TransactionTemplate transactionTemplate) {
-		this.userDetailsService = userDetailsService;
-		this.jpaQueryFactory = jpaQueryFactory;
-		this.transactionTemplate = transactionTemplate;
-	}
+  public JpaUserDetailsPasswordService(UserDetailsService userDetailsService,
+      JPAQueryFactory jpaQueryFactory, TransactionTemplate transactionTemplate) {
+    this.userDetailsService = userDetailsService;
+    this.jpaQueryFactory = jpaQueryFactory;
+    this.transactionTemplate = transactionTemplate;
+  }
 
-	@Override
-	public UserDetails updatePassword(UserDetails user, String newPassword) {
-		return this.transactionTemplate.execute(state -> {
-			JpaUserDetails userDetails = (JpaUserDetails) user;
+  @Override
+  public UserDetails updatePassword(UserDetails user, String newPassword) {
+    return this.transactionTemplate.execute(state -> {
+      JpaUserDetails userDetails = (JpaUserDetails) user;
 
-			this.jpaQueryFactory.update(QUser.user)
-					.set(QUser.user.passwordHash, newPassword)
-					.where(QUser.user.id.eq(userDetails.getId())).execute();
+      this.jpaQueryFactory.update(QUser.user).set(QUser.user.passwordHash, newPassword)
+          .where(QUser.user.id.eq(userDetails.getId())).execute();
 
-			return this.userDetailsService.loadUserByUsername(user.getUsername());
-		});
-	}
+      return this.userDetailsService.loadUserByUsername(user.getUsername());
+    });
+  }
 }

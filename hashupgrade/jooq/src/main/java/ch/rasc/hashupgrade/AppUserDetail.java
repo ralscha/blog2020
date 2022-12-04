@@ -6,7 +6,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import ch.rasc.hashupgrade.db.tables.records.AppUserRecord;
 
-
 public class AppUserDetail {
 
   private final Long appUserId;

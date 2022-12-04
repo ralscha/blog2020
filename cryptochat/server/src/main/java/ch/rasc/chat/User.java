@@ -30,10 +30,9 @@ public class User {
     if (this == obj) {
       return true;
     }
-    if (!(obj instanceof User)) {
+    if (!(obj instanceof User other)) {
       return false;
     }
-    User other = (User) obj;
     return Objects.equals(this.username, other.username);
   }
 

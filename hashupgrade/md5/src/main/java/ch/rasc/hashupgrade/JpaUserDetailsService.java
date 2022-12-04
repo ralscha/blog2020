@@ -12,24 +12,24 @@ import ch.rasc.hashupgrade.entity.User;
 @Component
 public class JpaUserDetailsService implements UserDetailsService {
 
-	private final JPAQueryFactory jpaQueryFactory;
+  private final JPAQueryFactory jpaQueryFactory;
 
-	public JpaUserDetailsService(JPAQueryFactory jpaQueryFactory) {
-		this.jpaQueryFactory = jpaQueryFactory;
-	}
+  public JpaUserDetailsService(JPAQueryFactory jpaQueryFactory) {
+    this.jpaQueryFactory = jpaQueryFactory;
+  }
 
-	@Override
-	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String userName)
-			throws UsernameNotFoundException {
-		User user = this.jpaQueryFactory.selectFrom(QUser.user)
-				.where(QUser.user.userName.eq(userName)).fetchFirst();
+  @Override
+  @Transactional(readOnly = true)
+  public UserDetails loadUserByUsername(String userName)
+      throws UsernameNotFoundException {
+    User user = this.jpaQueryFactory.selectFrom(QUser.user)
+        .where(QUser.user.userName.eq(userName)).fetchFirst();
 
-		if (user != null) {
-			return new JpaUserDetails(user);
-		}
+    if (user != null) {
+      return new JpaUserDetails(user);
+    }
 
-		throw new UsernameNotFoundException(userName);
-	}
+    throw new UsernameNotFoundException(userName);
+  }
 
 }

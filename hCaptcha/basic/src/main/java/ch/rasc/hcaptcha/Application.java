@@ -24,87 +24,86 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 public class Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(Application.class, args);
+  }
 
-	@Value("${hCaptcha.secret.key}")
-	private String hCaptchaSecretKey;
+  @Value("${hCaptcha.secret.key}")
+  private String hCaptchaSecretKey;
 
-	private final HttpClient httpClient;
+  private final HttpClient httpClient;
 
-	private final ObjectMapper om = new ObjectMapper();
+  private final ObjectMapper om = new ObjectMapper();
 
-	Application() {
-		this.httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5))
-				.build();
-	}
+  Application() {
+    this.httpClient = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5))
+        .build();
+  }
 
-	@PostMapping("/signup")
-	public boolean signup(
-			@RequestParam(name = "username", required = true) String username,
-			@RequestParam(name = "email", required = true) String email,
-			@RequestParam("h-captcha-response") String captchaResponse)
-			throws IOException, InterruptedException {
-		if (StringUtils.hasText(captchaResponse)) {
+  @PostMapping("/signup")
+  public boolean signup(@RequestParam(name = "username", required = true) String username,
+      @RequestParam(name = "email", required = true) String email,
+      @RequestParam("h-captcha-response") String captchaResponse)
+      throws IOException, InterruptedException {
+    if (StringUtils.hasText(captchaResponse)) {
 
-			var sb = new StringBuilder();
-			sb.append("response=");
-			sb.append(captchaResponse);
-			sb.append("&secret=");
-			sb.append(this.hCaptchaSecretKey);
+      var sb = new StringBuilder();
+      sb.append("response=");
+      sb.append(captchaResponse);
+      sb.append("&secret=");
+      sb.append(this.hCaptchaSecretKey);
 
-			HttpRequest request = HttpRequest.newBuilder()
-					.uri(URI.create("https://hcaptcha.com/siteverify"))
-					.header("Content-Type", "application/x-www-form-urlencoded")
-					.timeout(Duration.ofSeconds(10))
-					.POST(BodyPublishers.ofString(sb.toString())).build();
+      HttpRequest request = HttpRequest.newBuilder()
+          .uri(URI.create("https://hcaptcha.com/siteverify"))
+          .header("Content-Type", "application/x-www-form-urlencoded")
+          .timeout(Duration.ofSeconds(10)).POST(BodyPublishers.ofString(sb.toString()))
+          .build();
 
-			HttpResponse<String> response = this.httpClient.send(request,
-					BodyHandlers.ofString());
+      HttpResponse<String> response = this.httpClient.send(request,
+          BodyHandlers.ofString());
 
-			System.out.println("http response status: " + response.statusCode());
-			System.out.println("body: " + response.body());
+      System.out.println("http response status: " + response.statusCode());
+      System.out.println("body: " + response.body());
 
-			JsonNode hCaptchaResponseObject = this.om.readTree(response.body());
-			boolean success = hCaptchaResponseObject.get("success").asBoolean();
+      JsonNode hCaptchaResponseObject = this.om.readTree(response.body());
+      boolean success = hCaptchaResponseObject.get("success").asBoolean();
 
-			// timestamp of the captcha (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
-			JsonNode jsonNode = hCaptchaResponseObject.get("challenge_ts");
-			if (jsonNode != null) {
-				String challengeTs = jsonNode.asText();
-				System.out.println("challenge_ts=" + challengeTs);
-			}
+      // timestamp of the captcha (ISO format yyyy-MM-dd'T'HH:mm:ssZZ)
+      JsonNode jsonNode = hCaptchaResponseObject.get("challenge_ts");
+      if (jsonNode != null) {
+        String challengeTs = jsonNode.asText();
+        System.out.println("challenge_ts=" + challengeTs);
+      }
 
-			// the hostname of the site where the captcha was solved
-			jsonNode = hCaptchaResponseObject.get("hostname");
-			if (jsonNode != null) {
-				String hostname = jsonNode.asText();
-				System.out.println("hostname=" + hostname);
-			}
+      // the hostname of the site where the captcha was solved
+      jsonNode = hCaptchaResponseObject.get("hostname");
+      if (jsonNode != null) {
+        String hostname = jsonNode.asText();
+        System.out.println("hostname=" + hostname);
+      }
 
-			// optional: whether the response will be credited
-			jsonNode = hCaptchaResponseObject.get("credit");
-			if (jsonNode != null) {
-				boolean credit = jsonNode.asBoolean();
-				System.out.println("credit=" + credit);
-			}
+      // optional: whether the response will be credited
+      jsonNode = hCaptchaResponseObject.get("credit");
+      if (jsonNode != null) {
+        boolean credit = jsonNode.asBoolean();
+        System.out.println("credit=" + credit);
+      }
 
-			JsonNode errorCodesArray = hCaptchaResponseObject.get("error-codes");
-			if (errorCodesArray != null) {
-				System.out.println("error-codes");
-				for (JsonNode errorCode : errorCodesArray) {
-					System.out.println("  " + errorCode.asText());
-				}
-			}
-			else {
-				System.out.println("no errors");
-			}
+      JsonNode errorCodesArray = hCaptchaResponseObject.get("error-codes");
+      if (errorCodesArray != null) {
+        System.out.println("error-codes");
+        for (JsonNode errorCode : errorCodesArray) {
+          System.out.println("  " + errorCode.asText());
+        }
+      }
+      else {
+        System.out.println("no errors");
+      }
 
-			return success;
-		}
+      return success;
+    }
 
-		return false;
-	}
+    return false;
+  }
 
 }
