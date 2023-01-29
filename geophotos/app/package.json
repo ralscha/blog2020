@@ -15,11 +15,11 @@
     "serve-dist": "ws --hostname localhost -d dist -p 8080 -o --log.format stats"
   },
   "devDependencies": {
-    "@parcel/transformer-image": "2.8.2",
+    "@parcel/transformer-image": "2.8.3",
     "local-web-server": "5.2.1",
-    "parcel": "2.8.2",
-    "@parcel/compressor-brotli": "2.8.2",
-    "@parcel/compressor-gzip": "2.8.2"
+    "parcel": "2.8.3",
+    "@parcel/compressor-brotli": "2.8.3",
+    "@parcel/compressor-gzip": "2.8.3"
   },
   "dependencies": {
     "@googlemaps/markerclustererplus": "1.2.10",
