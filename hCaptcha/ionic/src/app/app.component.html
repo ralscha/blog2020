@@ -2,14 +2,14 @@
   <ion-content class="ion-padding">
     <form #form="ngForm" (ngSubmit)="form.valid && submit(form)">
       <ion-item>
-        <ion-label position="stacked">Username</ion-label>
-        <ion-input autocapitalize="off" autocomplete="username" name="username"
-                   ngModel [required]="true" [spellcheck]="false" type="text"></ion-input>
+        <ion-input [required]="true" [spellcheck]="false" autocapitalize="off"
+                   autocomplete="username" label="Username"
+                   labelPlacement="stacked" name="username" ngModel type="text"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input autocapitalize="off" autocomplete="email" email name="email"
-                   ngModel [required]="true" [spellcheck]="false" type="email"></ion-input>
+        <ion-input [required]="true" [spellcheck]="false" autocapitalize="off" autocomplete="email"
+                   email label="Email"
+                   labelPlacement="stacked" name="email" ngModel type="email"></ion-input>
       </ion-item>
       <ion-item>
         <ng-hcaptcha name="captcha" ngModel></ng-hcaptcha>

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {inject, NgModule} from '@angular/core';
 import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
 import {TabsPage} from './tabs/tabs.page';
 import {UsersPage} from './users/users.page';
@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: 'chat',
     component: TabsPage,
-    canActivate: [AuthGuard],
+    canActivate: [() => inject(AuthGuard).canActivate()],
     children: [
       {
         path: 'users',

@@ -1,5 +1,5 @@
-/.angular/cache
 /node_modules
 .idea/
 dist/
-/www/
+/.angular/cache
+.DS_Store

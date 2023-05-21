@@ -8,13 +8,14 @@
   <form (ngSubmit)="enter()">
     <ion-list>
       <ion-item>
-        <ion-label position="stacked">Username</ion-label>
-        <ion-input (keyup.enter)="enter()" [(ngModel)]="username" [required]="true" name="username"
+        <ion-input (keyup.enter)="enter()" [(ngModel)]="username" [required]="true" label="Username"
+                   labelPlacement="stacked" name="username"
                    type="text"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label position="stacked">Room</ion-label>
-        <ion-input (keyup.enter)="enter()" [(ngModel)]="room" [required]="true" name="room" type="text"></ion-input>
+        <ion-input (keyup.enter)="enter()" [(ngModel)]="room" [required]="true"
+                   label="Room" labelPlacement="stacked"
+                   name="room" type="text"></ion-input>
       </ion-item>
     </ion-list>
     <ion-button expand="block" type="submit">Enter</ion-button>
