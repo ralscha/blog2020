@@ -14,6 +14,9 @@ public class Simple {
     // Graal
     ScriptEngine graalEngine = new ScriptEngineManager().getEngineByName("graal.js");
     graalEngine.eval("print('Hello World!');");
+    
+    ScriptEngine javascriptEngine = new ScriptEngineManager().getEngineByName("javascript");
+    javascriptEngine.eval("print('Hello World!');");    
   }
 
 }
