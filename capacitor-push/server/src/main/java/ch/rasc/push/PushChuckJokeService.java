@@ -6,28 +6,34 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.support.WebClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import org.unbescape.html.HtmlEscape;
+
+import ch.rasc.push.ChuckNorrisJokeService.Joke;
 
 @Service
 public class PushChuckJokeService {
 
-  private final RestTemplate restTemplate;
+  private final ChuckNorrisJokeService chuckNorrisJokeService;
 
   private final FcmClient fcmClient;
 
   private int id = 0;
 
   public PushChuckJokeService(FcmClient fcmClient) {
-    this.restTemplate = new RestTemplate();
     this.fcmClient = fcmClient;
+    WebClient client = WebClient.builder().baseUrl("https://api.chucknorris.io").build();
+    HttpServiceProxyFactory factory = HttpServiceProxyFactory
+        .builder(WebClientAdapter.forClient(client)).build();
+    this.chuckNorrisJokeService = factory.createClient(ChuckNorrisJokeService.class);
   }
 
   @Scheduled(fixedDelay = 30_000)
   public void sendChuckQuotes() {
-    IcndbJoke joke = this.restTemplate.getForObject("http://api.icndb.com/jokes/random",
-        IcndbJoke.class);
-    sendPushMessage(HtmlEscape.unescapeHtml(joke.getValue().getJoke()));
+    Joke joke = this.chuckNorrisJokeService.getRandomJoke();
+    sendPushMessage(HtmlEscape.unescapeHtml(joke.value()));
   }
 
   void sendPushMessage(String joke) {
