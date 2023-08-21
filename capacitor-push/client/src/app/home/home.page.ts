@@ -99,6 +99,7 @@ export class HomePage {
 
   private async initFCM(): Promise<void> {
     await PushNotifications.requestPermissions();
+    await LocalNotifications.requestPermissions();
 
     PushNotifications.addListener('registrationError',
       error => console.log('Error on registration: ' + JSON.stringify(error)));
@@ -145,7 +146,7 @@ export class HomePage {
 
     if (status === 'prompt' || status === 'prompt-with-rationale') {
       const requested = await PushNotifications.requestPermissions()
-      status = requested.receive
+      status = requested.receive;
     }
 
     return status === 'granted'
