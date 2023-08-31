@@ -14,4 +14,4 @@ upgrade-libraries:
 
 .PHONY: build
 build:
-	GOOS=linux GOARCH=arm64 CGO_ENABLED=0  go build -ldflags='-s' -o main .
+	GOOS=linux GOARCH=arm64 CGO_ENABLED=0  go build -tags lambda.norpc -ldflags='-s' -o main .
