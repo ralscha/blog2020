@@ -1,6 +1,6 @@
 import { HTMLMapMarker } from './HTMLMapMarker.js';
 import MarkerClusterer from '@googlemaps/markerclustererplus';
-import format from 'date-fns/format'
+import { format } from 'date-fns';
 import 'lightgallery.js';
 import 'lg-fullscreen.js';
 import 'lg-autoplay.js';

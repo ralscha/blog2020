@@ -2,7 +2,7 @@ import {Component, OnDestroy} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
 import {catchError, concatMap, delay, filter, retryWhen, tap} from 'rxjs/operators';
 import {Observable, of, race, Subject, Subscription, throwError, timer} from 'rxjs';
-import format from 'date-fns/format';
+import {format} from 'date-fns';
 import {Calculation, Result} from './protos/calculator';
 import {EChartsOption} from 'echarts';
 import Operation = Calculation.Operation;
