@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {ToastController} from '@ionic/angular';
 
 @Component({

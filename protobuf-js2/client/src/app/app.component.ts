@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {environment} from '../environments/environment';
 import {IUserResponse, UserRequest, UserResponse} from './protos/user';
 import {catchError, map} from 'rxjs/operators';
