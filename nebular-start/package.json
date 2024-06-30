@@ -36,8 +36,8 @@
     "@angular/cli": "17.3.8",
     "@angular/compiler-cli": "17.3.10",
     "@schematics/angular": "17.3.7",
-    "@typescript-eslint/eslint-plugin": "7.10.0",
-    "@typescript-eslint/parser": "7.10.0",
+    "@typescript-eslint/eslint-plugin": "7.14.1",
+    "@typescript-eslint/parser": "7.14.1",
     "eslint": "8.57.0",
     "local-web-server": "5.3.3",
     "typescript": "5.4.5"
