@@ -7,6 +7,7 @@ help:
 ## upgrade-libraries: upgrade all libraries and run tidy and verify
 .PHONY: upgrade-libraries
 upgrade-libraries:
+	@go get go@latest
 	@go get -u ./...
 	@go fmt ./...
 	@go mod tidy
