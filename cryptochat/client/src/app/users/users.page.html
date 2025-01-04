@@ -14,10 +14,12 @@
 
 <ion-content class="ion-padding">
   <ion-list lines="none">
-    <ion-item *ngFor="let user of chatService.usersSubject | async">
-      <ion-label>
-        <h2>{{ user.username }}</h2>
-      </ion-label>
-    </ion-item>
+    @for (user of chatService.usersSubject | async; track user) {
+      <ion-item>
+        <ion-label>
+          <h2>{{ user.username }}</h2>
+        </ion-label>
+      </ion-item>
+    }
   </ion-list>
 </ion-content>

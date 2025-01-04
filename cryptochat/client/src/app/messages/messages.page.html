@@ -14,42 +14,45 @@
 
 <ion-content>
   <ion-list lines="none">
-    <ion-item *ngFor="let message of chatService.messagesSubject | async">
-      <ion-label>
-        <div *ngIf="message.type === 'MSG';else systemMessage" class="message-wrap">
-          <div
-            [class.left]="message.user !== chatService.username"
-            [class.right]="message.user === chatService.username"
-            class="message">
-            <img [src]="'assets/'+message.img" alt="user image" class="user-img">
-            <div class="msg-detail">
-              <div class="msg-info">
-                <p>
-                  {{message.user}}&nbsp;&nbsp;{{message.ts | relativeTime}}
-                </p>
-              </div>
-              <div class="msg-content">
-                <span class="triangle"></span>
-                <p class="line-breaker">{{message.msg}}</p>
+    @for (message of chatService.messagesSubject | async; track message.user + message.ts) {
+      <ion-item>
+        <ion-label>
+          @if (message.type === 'MSG') {
+            <div class="message-wrap">
+              <div
+                [class.left]="message.user !== chatService.username"
+                [class.right]="message.user === chatService.username"
+                class="message">
+                <img [src]="'assets/'+message.img" alt="user image" class="user-img">
+                <div class="msg-detail">
+                  <div class="msg-info">
+                    <p>
+                      {{message.user}}&nbsp;&nbsp;{{message.ts | relativeTime}}
+                    </p>
+                  </div>
+                  <div class="msg-content">
+                    <span class="triangle"></span>
+                    <p class="line-breaker">{{message.msg}}</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </ion-label>
-      <ng-template #systemMessage>
-        <div class="status ion-text-center">
-          <span class="date">{{message.ts | relativeTime}}</span>
-          <span class="content-center">{{message.user}}&nbsp;{{message.msg}}</span>
-        </div>
-      </ng-template>
-    </ion-item>
+          } @else {
+            <div class="status ion-text-center">
+              <span class="date">{{message.ts | relativeTime}}</span>
+              <span class="content-center">{{message.user}}&nbsp;{{message.msg}}</span>
+            </div>
+          }
+        </ion-label>
+      </ion-item>
+    }
   </ion-list>
 
 </ion-content>
 <ion-footer>
   <div class="input-wrap">
     <ion-textarea (keyup.enter)="sendMessage()" [(ngModel)]="messageText"
-                  placeholder="Type a message"></ion-textarea>
+    placeholder="Type a message"></ion-textarea>
     <ion-button (click)="sendMessage()" class="ion-item-right" fill="clear">
       <ion-icon name="send" slot="icon-only"></ion-icon>
     </ion-button>

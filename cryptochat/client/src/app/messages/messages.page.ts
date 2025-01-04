@@ -3,9 +3,10 @@ import {ChatService} from '../services/chat.service';
 import {IonContent, IonList, NavController} from '@ionic/angular';
 
 @Component({
-  selector: 'app-messages',
-  templateUrl: './messages.page.html',
-  styleUrls: ['./messages.page.scss']
+    selector: 'app-messages',
+    templateUrl: './messages.page.html',
+    styleUrls: ['./messages.page.scss'],
+    standalone: false
 })
 export class MessagesPage implements OnInit {
 

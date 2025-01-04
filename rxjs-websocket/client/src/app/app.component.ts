@@ -8,9 +8,10 @@ import {EChartsOption} from 'echarts';
 import Operation = Calculation.Operation;
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 export class AppComponent implements OnDestroy {
   options: EChartsOption;

@@ -3,9 +3,10 @@ import {AlertController, NavController} from '@ionic/angular';
 import {ChatService} from '../services/chat.service';
 
 @Component({
-  selector: 'app-sign-in',
-  templateUrl: './sign-in.page.html',
-  styleUrls: ['./sign-in.page.scss'],
+    selector: 'app-sign-in',
+    templateUrl: './sign-in.page.html',
+    styleUrls: ['./sign-in.page.scss'],
+    standalone: false
 })
 export class SignInPage implements OnInit {
 

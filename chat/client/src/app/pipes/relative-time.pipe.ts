@@ -2,7 +2,8 @@ import {Pipe, PipeTransform} from '@angular/core';
 import { formatDistanceToNow } from 'date-fns';
 
 @Pipe({
-  name: 'relativeTime'
+    name: 'relativeTime',
+    standalone: false
 })
 export class RelativeTimePipe implements PipeTransform {
 
