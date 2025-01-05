@@ -2,10 +2,10 @@
   "name": "hcaptcha",
   "version": "0.0.1",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve --host test.mydomain.com --disable-host-check",
     "build": "ng build",
-    "serve-dist": "ws --hostname 127.0.0.1 -d dist/app -p 1234 -o --log.format tiny --rewrite \"/signup -> http://localhost:8080/signup\""
+    "ng": "ng",
+    "serve-dist": "ws --hostname 127.0.0.1 -d dist/app -p 1234 -o --log.format tiny --rewrite \"/signup -> http://localhost:8080/signup\"",
+    "start": "ng serve --host test.mydomain.com --disable-host-check"
   },
   "private": true,
   "dependencies": {
@@ -17,7 +17,7 @@
     "@angular/platform-browser": "19.0.5",
     "@angular/platform-browser-dynamic": "19.0.5",
     "@angular/router": "19.0.5",
-    "@ionic/angular": "7.8.6",
+    "@ionic/angular": "8.4.1",
     "ionicons": "7.4.0",
     "ng-hcaptcha": "2.4.0",
     "rxjs": "7.8.1",
