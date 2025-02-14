@@ -26,7 +26,7 @@ public class PushChuckJokeService {
     this.fcmClient = fcmClient;
     WebClient client = WebClient.builder().baseUrl("https://api.chucknorris.io").build();
     HttpServiceProxyFactory factory = HttpServiceProxyFactory
-        .builder(WebClientAdapter.forClient(client)).build();
+        .builderFor(WebClientAdapter.create(client)).build();
     this.chuckNorrisJokeService = factory.createClient(ChuckNorrisJokeService.class);
   }
 
