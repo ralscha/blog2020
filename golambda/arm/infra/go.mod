@@ -4,7 +4,7 @@ go 1.24.1
 
 require (
 	github.com/pulumi/pulumi-aws/sdk/v4 v4.38.1
-	github.com/pulumi/pulumi/sdk/v3 v3.153.1
+	github.com/pulumi/pulumi/sdk/v3 v3.154.0
 )
 
 require (
