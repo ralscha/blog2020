@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@maptiler/sdk": "3.0.1",
+    "@maptiler/sdk": "3.0.2",
     "date-fns": "4.1.0",
     "lg-autoplay.js": "1.2.0",
     "lg-fullscreen.js": "1.2.0",
