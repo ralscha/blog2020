@@ -1,13 +1,13 @@
 module cloudwatch_cleanup
 
-go 1.24.2
+go 1.24.3
 
 require (
 	github.com/aws/aws-lambda-go v1.48.0
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
-	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.47.3
-	github.com/aws/aws-sdk-go-v2/service/ec2 v1.212.0
+	github.com/aws/aws-sdk-go-v2/service/cloudwatchlogs v1.50.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.218.0
 )
 
 require (
