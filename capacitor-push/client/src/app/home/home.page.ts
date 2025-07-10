@@ -1,28 +1,41 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {ChangeDetectorRef, Component, inject} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {ActionPerformed, PushNotifications} from '@capacitor/push-notifications';
 import {FCM} from '@capacitor-community/fcm';
 import {ActionPerformed as LocalActionPerformed, LocalNotifications} from '@capacitor/local-notifications';
 import {Capacitor} from '@capacitor/core';
+import {FormsModule} from '@angular/forms';
+import {
+  IonCheckbox,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonRow,
+  IonTitle,
+  IonToolbar
+} from "@ionic/angular/standalone";
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.page.html',
-    styleUrls: ['./home.page.scss'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonCheckbox, IonList, IonItem, IonLabel]
 })
 export class HomePage {
-
   errorMessage = "";
   allowPush: boolean;
   allowPersonal: boolean;
   items: { id: number, text: string }[] = [];
+  private readonly http = inject(HttpClient);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
   private readonly TOPIC_NAME = 'chuck';
 
-  constructor(private readonly http: HttpClient,
-              private readonly changeDetectorRef: ChangeDetectorRef) {
+  constructor() {
     const pushFlag = localStorage.getItem('allowPush');
     this.allowPush = pushFlag != null ? JSON.parse(pushFlag) : false;
 
@@ -98,6 +111,63 @@ export class HomePage {
     this.changeDetectorRef.detectChanges();
   }
 
+  // https://github.com/capacitor-community/fcm/issues/99
+  /**
+   * Returns `true` if the user gave permission or false otherwise.
+   */
+  async askFcmPermission(): Promise<boolean> {
+    const checked = await PushNotifications.checkPermissions()
+    let status: 'prompt' | 'prompt-with-rationale' | 'granted' | 'denied' = checked.receive
+
+    if (status === 'prompt' || status === 'prompt-with-rationale') {
+      const requested = await PushNotifications.requestPermissions()
+      status = requested.receive;
+    }
+
+    return status === 'granted'
+  }
+
+  /**
+   * Gets the FCM token in a non-breaking way.
+   *
+   * - For iOS we must use the `FCM` plugin, because `PushNotifications` returns the wrong APN token.
+   * - For Android we must use `PushNotifications`, because `FCM` is broken for Android.
+   * @see https://github.com/capacitor-community/fcm/issues/99
+   */
+  getFcmToken(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      if (Capacitor.getPlatform() === 'web') return resolve('')
+
+      PushNotifications.addListener('registration', ({value}) => {
+        if (Capacitor.getPlatform() === 'android') {
+          resolve(value)
+          return
+        }
+
+        // Get FCM token instead the APN one returned by Capacitor
+        if (Capacitor.getPlatform() === 'ios') {
+          FCM.getToken()
+            .then(({token}) => resolve(token))
+            .catch((error) => reject(error))
+          return
+        }
+
+        // will never come here
+        reject(new Error('?'))
+      })
+
+      this.askFcmPermission()
+        .then((granted) => {
+          if (granted) {
+            PushNotifications.register().catch((error) => reject(error))
+          } else {
+            reject(new Error('denied'))
+          }
+        })
+        .catch((error) => reject(error))
+    })
+  }
+
   private async initFCM(): Promise<void> {
     await PushNotifications.requestPermissions();
     await LocalNotifications.requestPermissions();
@@ -135,62 +205,5 @@ export class HomePage {
         this.handleNotification(event.notification.extra);
       });
 
-  }
-
-  // https://github.com/capacitor-community/fcm/issues/99
-  /**
-   * Returns `true` if the user gave permission or false otherwise.
-   */
-  async askFcmPermission(): Promise<boolean> {
-    const checked = await PushNotifications.checkPermissions()
-    let status: 'prompt' | 'prompt-with-rationale' | 'granted' | 'denied' = checked.receive
-
-    if (status === 'prompt' || status === 'prompt-with-rationale') {
-      const requested = await PushNotifications.requestPermissions()
-      status = requested.receive;
-    }
-
-    return status === 'granted'
-  }
-
-  /**
-   * Gets the FCM token in a non-breaking way.
-   *
-   * - For iOS we must use the `FCM` plugin, because `PushNotifications` returns the wrong APN token.
-   * - For Android we must use `PushNotifications`, because `FCM` is broken for Android.
-   * @see https://github.com/capacitor-community/fcm/issues/99
-   */
-  getFcmToken(): Promise<string> {
-    return new Promise((resolve, reject) => {
-      if (Capacitor.getPlatform() === 'web') return resolve('')
-
-      PushNotifications.addListener('registration', ({ value }) => {
-        if (Capacitor.getPlatform() === 'android') {
-          resolve(value)
-          return
-        }
-
-        // Get FCM token instead the APN one returned by Capacitor
-        if (Capacitor.getPlatform() === 'ios') {
-          FCM.getToken()
-            .then(({ token }) => resolve(token))
-            .catch((error) => reject(error))
-          return
-        }
-
-        // will never come here
-        reject(new Error('?'))
-      })
-
-      this.askFcmPermission()
-        .then((granted) => {
-          if (granted) {
-            PushNotifications.register().catch((error) => reject(error))
-          } else {
-            reject(new Error('denied'))
-          }
-        })
-        .catch((error) => reject(error))
-    })
   }
 }

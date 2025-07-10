@@ -28,9 +28,7 @@ check-dep:
 	cd ./hashupgrade/md5 && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./hCaptcha/basic && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./hCaptcha/ionic && ncu
-	cd ./jsengine && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./locationvideo && ncu
-	cd ./nebular-start && ncu
 	cd ./protobuf-js2/client && ncu
 	cd ./protobuf-js2/server && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./rxjs-websocket/client && ncu

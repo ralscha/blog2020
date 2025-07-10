@@ -1,17 +1,33 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {ChatService} from '../services/chat.service';
-import {NavController} from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonTitle,
+  IonToolbar,
+  NavController
+} from '@ionic/angular/standalone';
+import {AsyncPipe} from '@angular/common';
+import {addIcons} from "ionicons";
+import {logOut} from "ionicons/icons";
 
 @Component({
-    selector: 'app-users',
-    templateUrl: './users.page.html',
-    styleUrls: ['./users.page.scss'],
-    standalone: false
+  selector: 'app-users',
+  templateUrl: './users.page.html',
+  imports: [AsyncPipe, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonContent, IonList, IonItem, IonLabel]
 })
 export class UsersPage {
+  readonly chatService = inject(ChatService);
+  private readonly navCtrl = inject(NavController);
 
-  constructor(public readonly chatService: ChatService,
-              private readonly navCtrl: NavController) {
+  constructor() {
+    addIcons({logOut});
   }
 
   signout(): void {

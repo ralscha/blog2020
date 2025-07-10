@@ -1,16 +1,15 @@
 import {Router, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
-import {Injectable} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {ChatService} from './chat.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthGuard  {
+export class AuthGuard {
+  private readonly chatService = inject(ChatService);
+  private readonly router = inject(Router);
 
-  constructor(private readonly chatService: ChatService,
-              private readonly router: Router) {
-  }
 
   canActivate():
     Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {

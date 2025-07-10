@@ -1,7 +1,21 @@
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {RouteReuseStrategy} from '@angular/router';
+import {IonicRouteStrategy, provideIonicAngular} from '@ionic/angular/standalone';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {NgHcaptchaModule} from 'ng-hcaptcha';
+import {environment} from './environments/environment';
+import {AppComponent} from './app/app.component';
+import {importProvidersFrom} from '@angular/core';
 
-import {AppModule} from './app/app.module';
 
-
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideIonicAngular(),
+    importProvidersFrom(NgHcaptchaModule.forRoot({
+      siteKey: environment.SITE_KEY
+    })),
+    {provide: RouteReuseStrategy, useClass: IonicRouteStrategy},
+    provideHttpClient(withInterceptorsFromDi())
+  ]
+})
   .catch(err => console.error(err));

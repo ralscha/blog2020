@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import * as $protobuf from 'protobufjs';
+import * as $protobuf from "protobufjs";
+import Long = require("long");
 
 export interface IUserRequest {
   firstname?: (string | null);
@@ -9,12 +9,12 @@ export interface IUserRequest {
 }
 
 export class UserRequest implements IUserRequest {
+  constructor(properties?: IUserRequest);
+
   public firstname: string;
   public lastname: string;
   public age: number;
   public gender: UserRequest.Gender;
-
-  constructor(properties?: IUserRequest);
 
   public static create(properties?: IUserRequest): UserRequest;
 
@@ -33,9 +33,10 @@ export class UserRequest implements IUserRequest {
   public static toObject(message: UserRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
   public toJSON(): { [k: string]: any };
+
+  public static getTypeUrl(typeUrlPrefix?: string): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserRequest {
 
   enum Gender {
@@ -50,10 +51,10 @@ export interface IUserResponse {
 }
 
 export class UserResponse implements IUserResponse {
+  constructor(properties?: IUserResponse);
+
   public id: string;
   public status: UserResponse.Status;
-
-  constructor(properties?: IUserResponse);
 
   public static create(properties?: IUserResponse): UserResponse;
 
@@ -72,9 +73,10 @@ export class UserResponse implements IUserResponse {
   public static toObject(message: UserResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
 
   public toJSON(): { [k: string]: any };
+
+  public static getTypeUrl(typeUrlPrefix?: string): string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace UserResponse {
 
   enum Status {

@@ -1,24 +1,43 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
 import {ChatService} from '../services/chat.service';
-import {IonContent, IonList, NavController} from '@ionic/angular';
+import {
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonFooter,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonTextarea,
+  IonTitle,
+  IonToolbar,
+  NavController
+} from '@ionic/angular/standalone';
+import {FormsModule} from '@angular/forms';
+import {AsyncPipe} from '@angular/common';
+import {RelativeTimePipe} from '../pipes/relative-time.pipe';
+import {addIcons} from "ionicons";
+import {logOut, send} from "ionicons/icons";
 
 @Component({
-    selector: 'app-messages',
-    templateUrl: './messages.page.html',
-    styleUrls: ['./messages.page.scss'],
-    standalone: false
+  selector: 'app-messages',
+  templateUrl: './messages.page.html',
+  styleUrl: './messages.page.scss',
+  imports: [FormsModule, AsyncPipe, RelativeTimePipe, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonContent, IonList, IonItem, IonLabel, IonFooter, IonTextarea]
 })
 export class MessagesPage implements OnInit {
-
+  readonly chatService = inject(ChatService);
   messageText: string | null = null;
-
   @ViewChild(IonContent, {static: true}) content!: IonContent;
+  private readonly navCtrl = inject(NavController);
   @ViewChild(IonList, {read: ElementRef, static: true})
   private chatElement!: ElementRef;
   private mutationObserver!: MutationObserver;
 
-  constructor(public readonly chatService: ChatService,
-              private readonly navCtrl: NavController) {
+  constructor() {
+    addIcons({logOut, send});
   }
 
   ngOnInit(): void {

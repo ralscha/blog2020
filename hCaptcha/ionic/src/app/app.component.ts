@@ -1,19 +1,18 @@
-import {Component} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import {ToastController} from '@ionic/angular';
+import {Component, inject} from '@angular/core';
+import {FormsModule, NgForm} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
+import {IonApp, IonButton, IonContent, IonInput, IonItem, ToastController} from '@ionic/angular/standalone';
+import {NgHcaptchaModule} from "ng-hcaptcha";
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  imports: [FormsModule, IonApp, IonContent, IonItem, IonInput, NgHcaptchaModule, IonButton]
 })
 export class AppComponent {
+  private readonly httpClient = inject(HttpClient);
+  private toastController = inject(ToastController);
 
-  constructor(private readonly httpClient: HttpClient,
-              private toastController: ToastController) {
-  }
 
   submit(form: NgForm): void {
     const formData = new FormData();
@@ -30,7 +29,7 @@ export class AppComponent {
           }).then(toast => toast.present());
         } else {
           this.toastController.create({
-            message: 'Something wrent wrong.',
+            message: 'Something went wrong.',
             duration: 4000
           }).then(toast => toast.present());
         }

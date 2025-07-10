@@ -1,17 +1,18 @@
 import {Component, OnDestroy} from '@angular/core';
 import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import {catchError, concatMap, delay, filter, retryWhen, tap} from 'rxjs/operators';
+import {catchError, concatMap, delay, filter, retry, tap} from 'rxjs/operators';
 import {Observable, of, race, Subject, Subscription, throwError, timer} from 'rxjs';
 import {format} from 'date-fns';
-import {Calculation, Result} from './protos/calculator';
 import {EChartsOption} from 'echarts';
-import Operation = Calculation.Operation;
+import {NgxEchartsDirective} from 'ngx-echarts';
+import {FormsModule} from '@angular/forms';
+import {Calculation, Result} from "./protos/calculator";
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.scss'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss',
+  imports: [NgxEchartsDirective, FormsModule]
 })
 export class AppComponent implements OnDestroy {
   options: EChartsOption;
@@ -68,7 +69,11 @@ export class AppComponent implements OnDestroy {
     this.mergeOptions = {series: {data: [{value: NaN, name: ''}]}};
 
     const webSocketSubject = webSocket('ws://localhost:8080/sensor');
-    webSocketSubject.pipe(retryWhen((errors) => errors.pipe(delay(10_000))))
+    webSocketSubject.pipe(
+      retry({
+        delay: 10_000
+      })
+    )
       .subscribe(value => console.log(value));
   }
 
@@ -192,16 +197,16 @@ export class AppComponent implements OnDestroy {
     let operation: number;
     switch (operatorElement.value) {
       case 'Addition':
-        operation = Operation.Addition;
+        operation = Calculation.Operation.Addition;
         break;
       case 'Subtraction':
-        operation = Operation.Subtraction;
+        operation = Calculation.Operation.Subtraction;
         break;
       case 'Multiplication':
-        operation = Operation.Multiplication;
+        operation = Calculation.Operation.Multiplication;
         break;
       case 'Division':
-        operation = Operation.Division;
+        operation = Calculation.Operation.Division;
         break;
     }
 

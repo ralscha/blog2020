@@ -1,18 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MapInfoWindow, MapMarker} from '@angular/google-maps';
+import {GoogleMap, MapAdvancedMarker, MapInfoWindow} from '@angular/google-maps';
 import {YouTubePlayer} from '@angular/youtube-player';
 
 type MarkerObject = {
-  option: google.maps.MarkerOptions,
+  option: google.maps.marker.AdvancedMarkerElementOptions,
   videoId: string,
   info: string
 };
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css'],
-    standalone: false
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
+  imports: [GoogleMap, MapAdvancedMarker, MapInfoWindow, YouTubePlayer]
 })
 export class AppComponent implements OnInit {
 
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
     document.body.appendChild(tag);
   }
 
-  openInfoWindow(markerElement: MapMarker, marker: MarkerObject): void {
+  openInfoWindow(markerElement: MapAdvancedMarker, marker: MarkerObject): void {
     if (this.youtubePlayer
       && this.youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
       this.youtubePlayer.stopVideo();

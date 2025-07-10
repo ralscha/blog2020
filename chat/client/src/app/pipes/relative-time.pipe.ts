@@ -1,10 +1,7 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import { formatDistanceToNow } from 'date-fns';
+import {formatDistanceToNow} from 'date-fns';
 
-@Pipe({
-    name: 'relativeTime',
-    standalone: false
-})
+@Pipe({name: 'relativeTime'})
 export class RelativeTimePipe implements PipeTransform {
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

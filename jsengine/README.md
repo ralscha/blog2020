@@ -1,1 +1,0 @@
-Code for blog post: https://golb.hplar.ch/2020/04/java-javascript-engine.html

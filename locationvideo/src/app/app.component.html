@@ -1,15 +1,15 @@
-<google-map [center]="center" [zoom]="zoom" height="100%" width="100%">
+<google-map [center]="center" [zoom]="zoom" height="100%" mapId="f4b1c0d2b3c4e5f6" width="100%">
   @for (marker of markers; track $index) {
-    <map-marker #markerElement="mapMarker"
-      (mapClick)="openInfoWindow(markerElement, marker)"
-    [options]="marker.option"></map-marker>
+    <map-advanced-marker #markerElement="mapAdvancedMarker"
+                         (mapClick)="openInfoWindow(markerElement, marker)"
+                         [options]="marker.option"></map-advanced-marker>
   }
-  <map-info-window>{{info}}</map-info-window>
+  <map-info-window>{{ info }}</map-info-window>
 </google-map>
 
 @if (videoId) {
   <youtube-player (ready)="onReady($event)" (stateChange)="onStateChange($event)"
-  [videoId]="videoId"></youtube-player>
+                  [videoId]="videoId"></youtube-player>
 }
 
 

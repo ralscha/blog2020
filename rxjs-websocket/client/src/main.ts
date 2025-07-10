@@ -1,7 +1,16 @@
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {bootstrapApplication} from '@angular/platform-browser';
+import {provideEchartsCore} from 'ngx-echarts';
+import {AppComponent} from './app/app.component';
 
-import {AppModule} from './app/app.module';
+// import echarts core
+import * as echarts from 'echarts/core';
+// import necessary echarts components
+import {GaugeChart} from 'echarts/charts';
+import {CanvasRenderer} from 'echarts/renderers';
 
+echarts.use([GaugeChart, CanvasRenderer]);
 
-platformBrowserDynamic().bootstrapModule(AppModule)
+bootstrapApplication(AppComponent, {
+  providers: [provideEchartsCore({echarts})]
+})
   .catch(err => console.error(err));

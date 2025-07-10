@@ -1,12 +1,12 @@
-import {inject, NgModule} from '@angular/core';
-import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {inject} from '@angular/core';
+import {Routes} from '@angular/router';
 import {TabsPage} from './tabs/tabs.page';
 import {UsersPage} from './users/users.page';
 import {MessagesPage} from './messages/messages.page';
 import {SignInPage} from './sign-in/sign-in.page';
 import {AuthGuard} from './services/auth-guard.service';
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: '', redirectTo: 'sign-in', pathMatch: 'full'},
   {path: 'sign-in', component: SignInPage},
   {
@@ -32,11 +32,4 @@ const routes: Routes = [
   {path: '**', redirectTo: 'chat'}
 ];
 
-@NgModule({
-  imports: [
-    RouterModule.forRoot(routes, {preloadingStrategy: PreloadAllModules, useHash: true})
-  ],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {
-}
+
