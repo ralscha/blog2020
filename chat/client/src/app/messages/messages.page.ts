@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, inject, OnInit, viewChild} from '@angular/core';
 import {ChatService} from '../services/chat.service';
 import {
   IonButton,
@@ -30,10 +30,9 @@ import {logOut, send} from "ionicons/icons";
 export class MessagesPage implements OnInit {
   readonly chatService = inject(ChatService);
   messageText: string | null = null;
-  @ViewChild(IonContent, {static: true}) content!: IonContent;
+  readonly content = viewChild.required(IonContent);
   private readonly navCtrl = inject(NavController);
-  @ViewChild(IonList, {read: ElementRef, static: true})
-  private chatElement!: ElementRef;
+  private readonly chatElement = viewChild.required(IonList, { read: ElementRef });
   private mutationObserver!: MutationObserver;
 
   constructor() {
@@ -43,10 +42,10 @@ export class MessagesPage implements OnInit {
   ngOnInit(): void {
     this.mutationObserver = new MutationObserver(() => {
       setTimeout(() => {
-        this.content.scrollToBottom();
+        this.content().scrollToBottom();
       }, 100);
     });
-    this.mutationObserver.observe(this.chatElement.nativeElement, {
+    this.mutationObserver.observe(this.chatElement().nativeElement, {
       childList: true
     });
   }

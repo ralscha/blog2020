@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, viewChild} from '@angular/core';
 import {GoogleMap, MapAdvancedMarker, MapInfoWindow} from '@angular/google-maps';
 import {YouTubePlayer} from '@angular/youtube-player';
 
@@ -16,11 +16,11 @@ type MarkerObject = {
 })
 export class AppComponent implements OnInit {
 
-  @ViewChild(MapInfoWindow) infoWindow!: MapInfoWindow;
+  readonly infoWindow = viewChild.required(MapInfoWindow);
 
   videoId: string | null = null;
 
-  @ViewChild(YouTubePlayer) youtubePlayer!: YouTubePlayer;
+  readonly youtubePlayer = viewChild.required(YouTubePlayer);
 
   markers: MarkerObject[] = [{
     option: {title: 'Paradise Beach', position: {lat: 13.6131648, lng: 98.1379005}},
@@ -91,14 +91,15 @@ export class AppComponent implements OnInit {
   }
 
   openInfoWindow(markerElement: MapAdvancedMarker, marker: MarkerObject): void {
-    if (this.youtubePlayer
-      && this.youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
-      this.youtubePlayer.stopVideo();
+    const youtubePlayer = this.youtubePlayer();
+    if (youtubePlayer
+      && youtubePlayer.getPlayerState() === YT.PlayerState.PLAYING) {
+      youtubePlayer.stopVideo();
     }
 
     this.videoId = marker.videoId;
     this.info = marker.info;
-    this.infoWindow.open(markerElement);
+    this.infoWindow().open(markerElement);
   }
 
   onReady(event: YT.PlayerEvent): void {

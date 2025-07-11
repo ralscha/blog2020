@@ -5,8 +5,7 @@
     </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="signout()">
-        <ion-icon name="log-out" slot="icon-only">
-        </ion-icon>
+        <ion-icon name="log-out" slot="icon-only" />
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -52,9 +51,9 @@
 <ion-footer>
   <div class="input-wrap">
     <ion-textarea (keyup.enter)="sendMessage()" [(ngModel)]="messageText"
-                  placeholder="Type a message"></ion-textarea>
+                  placeholder="Type a message" />
     <ion-button (click)="sendMessage()" class="ion-item-right" fill="clear">
-      <ion-icon name="send" slot="icon-only"></ion-icon>
+      <ion-icon name="send" slot="icon-only" />
     </ion-button>
   </div>
 </ion-footer>

@@ -2,14 +2,14 @@
   @for (marker of markers; track $index) {
     <map-advanced-marker #markerElement="mapAdvancedMarker"
                          (mapClick)="openInfoWindow(markerElement, marker)"
-                         [options]="marker.option"></map-advanced-marker>
+                         [options]="marker.option" />
   }
   <map-info-window>{{ info }}</map-info-window>
 </google-map>
 
 @if (videoId) {
   <youtube-player (ready)="onReady($event)" (stateChange)="onStateChange($event)"
-                  [videoId]="videoId"></youtube-player>
+                  [videoId]="videoId" />
 }
 
 

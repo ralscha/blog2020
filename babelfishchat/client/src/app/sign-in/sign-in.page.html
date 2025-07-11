@@ -10,12 +10,12 @@
       <ion-item>
         <ion-input (keyup.enter)="enter()" [(ngModel)]="username" [required]="true" label="Username"
                    labelPlacement="stacked" name="username"
-                   type="text"></ion-input>
+                   type="text" />
       </ion-item>
       <ion-item>
         <ion-input (keyup.enter)="enter()" [(ngModel)]="room" [required]="true"
                    label="Room" labelPlacement="stacked"
-                   name="room" type="text"></ion-input>
+                   name="room" type="text" />
       </ion-item>
       <ion-item>
         <ion-select [(ngModel)]="language" [ngModelOptions]="{standalone: true}"
