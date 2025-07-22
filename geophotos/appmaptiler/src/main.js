@@ -7,11 +7,12 @@ import 'lg-autoplay.js';
 import 'lg-zoom.js';
 import 'lightgallery.js/dist/css/lightgallery.css';
 
-maptilersdk.config.apiKey = 'XyfIgbuyJYcTR5C5ntYK';
+maptilersdk.config.apiKey = 'W61XbXMJwzZapVydUu4s';
 
 const map = new maptilersdk.Map({
-  container: 'map', 
-  style: maptilersdk.MapStyle.HYBRID,
+  container: 'map',
+  projection: 'globe',
+  style: maptilersdk.MapStyle.BASIC,
   center: [8.5417, 47.3769],
   zoom: 12
 });
