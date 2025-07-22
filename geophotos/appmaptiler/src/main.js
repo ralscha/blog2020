@@ -12,7 +12,7 @@ maptilersdk.config.apiKey = 'W61XbXMJwzZapVydUu4s';
 const map = new maptilersdk.Map({
   container: 'map',
   projection: 'globe',
-  style: maptilersdk.MapStyle.BASIC,
+  style: maptilersdk.MapStyle.HYBRID,
   center: [8.5417, 47.3769],
   zoom: 12
 });
