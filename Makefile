@@ -1,16 +1,3 @@
-.PHONY: all
-all: upgrade check-dep
-
-.PHONY: upgrade
-upgrade:
-	make -C ./golambda/arm/infra upgrade-libraries
-	make -C ./golambda/arm/lambda upgrade-libraries
-	make -C ./golambda/cloudwatch_cleanup/infra upgrade-libraries
-	make -C ./golambda/cloudwatch_cleanup/lambda upgrade-libraries
-	make -C ./golambda/helloworld/infra upgrade-libraries
-	make -C ./golambda/helloworld/lambda upgrade-libraries
-
-
 .PHONY: check-dep
 check-dep:
 	cd ./babelfishchat/client && ncu
@@ -22,6 +9,7 @@ check-dep:
 	cd ./cryptochat/client && ncu
 	cd ./cryptochat/server && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./geophotos/app && ncu
+	cd ./geophotos/appmaptiler && ncu
 	cd ./geophotos/extract && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./hashupgrade/argon2 && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
 	cd ./hashupgrade/jooq && ./mvnw.cmd versions:display-dependency-updates && ./mvnw.cmd versions:display-plugin-updates
