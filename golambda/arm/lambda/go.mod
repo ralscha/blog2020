@@ -1,5 +1,5 @@
 module hashcompute
 
-go 1.25.1
+go 1.25.2
 
-require github.com/aws/aws-lambda-go v1.49.0
+require github.com/aws/aws-lambda-go v1.50.0
