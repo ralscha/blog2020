@@ -1,1 +1,1 @@
-Code for blog post: https://golb.hplar.ch/2021/11/go-tls-localhost.html
+Code for blog post: https://blog.rasc.ch/2021/11/go-tls-localhost.html
