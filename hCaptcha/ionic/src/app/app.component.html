@@ -4,15 +4,15 @@
       <ion-item>
         <ion-input [required]="true" [spellcheck]="false" autocapitalize="off"
                    autocomplete="username" label="Username"
-                   labelPlacement="stacked" name="username" ngModel type="text"></ion-input>
+                   labelPlacement="stacked" name="username" ngModel type="text" />
       </ion-item>
       <ion-item>
         <ion-input [required]="true" [spellcheck]="false" autocapitalize="off" autocomplete="email"
                    email label="Email"
-                   labelPlacement="stacked" name="email" ngModel type="email"></ion-input>
+                   labelPlacement="stacked" name="email" ngModel type="email" />
       </ion-item>
       <ion-item>
-        <ng-hcaptcha name="captcha" ngModel></ng-hcaptcha>
+        <ng-hcaptcha name="captcha" ngModel />
       </ion-item>
       <ion-button expand="block" type="submit">Sign Up</ion-button>
     </form>
