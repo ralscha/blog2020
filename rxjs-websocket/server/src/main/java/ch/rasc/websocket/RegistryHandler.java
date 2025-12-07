@@ -12,8 +12,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
+
 
 public class RegistryHandler extends TextWebSocketHandler {
 
@@ -35,9 +36,9 @@ public class RegistryHandler extends TextWebSocketHandler {
       throws Exception {
     System.out.println("Connection closed: " + session.getId());
     this.topicSessions.computeIfPresent("temp",
-        (k, set) -> set.remove(session) && set.isEmpty() ? null : set);
+        (_, set) -> set.remove(session) && set.isEmpty() ? null : set);
     this.topicSessions.computeIfPresent("hum",
-        (k, set) -> set.remove(session) && set.isEmpty() ? null : set);
+        (_, set) -> set.remove(session) && set.isEmpty() ? null : set);
   }
 
   @Override
@@ -47,20 +48,20 @@ public class RegistryHandler extends TextWebSocketHandler {
       session.sendMessage(new TextMessage("\"pong\""));
     }
     else if ("\"subscribe-temp\"".equals(message.getPayload())) {
-      this.topicSessions.computeIfAbsent("temp", k -> ConcurrentHashMap.newKeySet())
+      this.topicSessions.computeIfAbsent("temp", _ -> ConcurrentHashMap.newKeySet())
           .add(session);
     }
     else if ("\"subscribe-hum\"".equals(message.getPayload())) {
-      this.topicSessions.computeIfAbsent("hum", k -> ConcurrentHashMap.newKeySet())
+      this.topicSessions.computeIfAbsent("hum", _ -> ConcurrentHashMap.newKeySet())
           .add(session);
     }
     else if ("\"unsubscribe-temp\"".equals(message.getPayload())) {
       this.topicSessions.computeIfPresent("temp",
-          (k, set) -> set.remove(session) && set.isEmpty() ? null : set);
+          (_, set) -> set.remove(session) && set.isEmpty() ? null : set);
     }
     else if ("\"unsubscribe-hum\"".equals(message.getPayload())) {
       this.topicSessions.computeIfPresent("hum",
-          (k, set) -> set.remove(session) && set.isEmpty() ? null : set);
+          (_, set) -> set.remove(session) && set.isEmpty() ? null : set);
     }
   }
 
@@ -81,7 +82,7 @@ public class RegistryHandler extends TextWebSocketHandler {
     try {
       payload = this.om.writeValueAsString(sensorData);
     }
-    catch (JsonProcessingException e) {
+    catch (JacksonException e) {
       e.printStackTrace();
       return;
     }

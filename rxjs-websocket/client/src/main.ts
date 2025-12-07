@@ -1,3 +1,4 @@
+import { provideZoneChangeDetection } from "@angular/core";
 import {bootstrapApplication} from '@angular/platform-browser';
 import {provideEchartsCore} from 'ngx-echarts';
 import {AppComponent} from './app/app.component';
@@ -11,6 +12,6 @@ import {CanvasRenderer} from 'echarts/renderers';
 echarts.use([GaugeChart, CanvasRenderer]);
 
 bootstrapApplication(AppComponent, {
-  providers: [provideEchartsCore({echarts})]
+  providers: [provideZoneChangeDetection(),provideEchartsCore({echarts})]
 })
   .catch(err => console.error(err));
