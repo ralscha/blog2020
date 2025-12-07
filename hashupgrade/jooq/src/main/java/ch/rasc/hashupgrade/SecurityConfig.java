@@ -40,7 +40,7 @@ class SecurityConfig {
   public PasswordEncoder passwordEncoder() {
     MessageDigestPasswordEncoder md5PE = new MessageDigestPasswordEncoder("MD5");
 
-    Argon2PasswordEncoder argon2PE = new Argon2PasswordEncoder(16, 32, 1, 1 << 17, 5);
+    Argon2PasswordEncoder argon2PE = new Argon2PasswordEncoder(16, 32, 1, 1 << 18, 5);
 
     Map<String, PasswordEncoder> encoders = Map.of("argon2", argon2PE);
 

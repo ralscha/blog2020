@@ -156,7 +156,7 @@ export class ChatService {
   }
 
   private async generateSharedKey(user: User): Promise<void> {
-    const publicKey = await window.crypto.subtle.importKey('raw', user.publicKey,
+    const publicKey = await window.crypto.subtle.importKey('raw', user.publicKey as BufferSource,
       {name: 'ECDH', namedCurve: 'P-256'}, false, []);
 
     user.sharedKey = await window.crypto.subtle.deriveKey(
