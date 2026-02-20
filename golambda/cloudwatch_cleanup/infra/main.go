@@ -110,7 +110,7 @@ func createLambda(ctx *pulumi.Context, role *iam.Role) (*lambda.Function, error)
 		return nil, err
 	}
 
-	codeArchive := pulumi.NewAssetArchive(map[string]interface{}{
+	codeArchive := pulumi.NewAssetArchive(map[string]any{
 		"bootstrap": pulumi.NewFileAsset("../lambda/main"),
 	})
 
