@@ -1,28 +1,19 @@
 {
   "name": "geophotos",
   "version": "1.0.0",
-  "source": "src/index.html",
-	"browserslist": "> 0.5%, last 2 versions, not dead",
-  "targets": {
-    "default": {
-      "distDir": "dist",
-      "sourceMap": false
-    }
-  },
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
-    "serve-dist": "ws --hostname localhost -d dist -p 8080 -o --log.format stats"
+    "dev": "vite",
+    "start": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "devDependencies": {
-    "@parcel/transformer-image": "2.16.4",
-    "local-web-server": "5.4.0",
-    "parcel": "2.16.4",
-    "@parcel/compressor-brotli": "2.16.4",
-    "@parcel/compressor-gzip": "2.16.4"
+    "esbuild": "0.27.4",
+    "vite": "8.0.0"
   },
   "dependencies": {
-    "@googlemaps/markerclustererplus": "1.2.10",
+    "@googlemaps/js-api-loader": "2.0.2",
+    "@googlemaps/markerclusterer": "2.6.2",
     "date-fns": "4.1.0",
     "lg-autoplay.js": "1.2.0",
     "lg-fullscreen.js": "1.2.0",
