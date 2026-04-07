@@ -17,7 +17,7 @@
     "lightgallery.js": "1.4.0"
   },
   "devDependencies": {
-    "bread-compressor-cli": "3.1.2",
-    "vite": "8.0.0"
+    "bread-compressor-cli": "4.0.0",
+    "vite": "8.0.5"
   }
 }
