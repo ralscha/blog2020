@@ -1,14 +1,15 @@
 /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
-import * as $protobuf from "protobufjs/minimal";
+import * as $protobuf from 'protobufjs/minimal';
 
 // Common aliases
-const $Reader = $protobuf.Reader, $Writer = $protobuf.Writer, $util = $protobuf.util;
+const $Reader = $protobuf.Reader,
+  $Writer = $protobuf.Writer,
+  $util = $protobuf.util;
 
 // Exported root namespace
-const $root = $protobuf.roots["default"] || ($protobuf.roots["default"] = {});
+const $root = $protobuf.roots['default'] || ($protobuf.roots['default'] = {});
 
-export const UserRequest = $root.UserRequest = (() => {
-
+export const UserRequest = ($root.UserRequest = (() => {
   /**
    * Properties of a UserRequest.
    * @exports IUserRequest
@@ -30,8 +31,7 @@ export const UserRequest = $root.UserRequest = (() => {
   function UserRequest(properties) {
     if (properties)
       for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-        if (properties[keys[i]] != null)
-          this[keys[i]] = properties[keys[i]];
+        if (properties[keys[i]] != null) this[keys[i]] = properties[keys[i]];
   }
 
   /**
@@ -40,7 +40,7 @@ export const UserRequest = $root.UserRequest = (() => {
    * @memberof UserRequest
    * @instance
    */
-  UserRequest.prototype.firstname = "";
+  UserRequest.prototype.firstname = '';
 
   /**
    * UserRequest lastname.
@@ -48,7 +48,7 @@ export const UserRequest = $root.UserRequest = (() => {
    * @memberof UserRequest
    * @instance
    */
-  UserRequest.prototype.lastname = "";
+  UserRequest.prototype.lastname = '';
 
   /**
    * UserRequest age.
@@ -88,16 +88,15 @@ export const UserRequest = $root.UserRequest = (() => {
    * @returns {$protobuf.Writer} Writer
    */
   UserRequest.encode = function encode(message, writer) {
-    if (!writer)
-      writer = $Writer.create();
-    if (message.firstname != null && Object.hasOwnProperty.call(message, "firstname"))
-      writer.uint32(/* id 1, wireType 2 =*/10).string(message.firstname);
-    if (message.lastname != null && Object.hasOwnProperty.call(message, "lastname"))
-      writer.uint32(/* id 2, wireType 2 =*/18).string(message.lastname);
-    if (message.age != null && Object.hasOwnProperty.call(message, "age"))
-      writer.uint32(/* id 3, wireType 0 =*/24).uint32(message.age);
-    if (message.gender != null && Object.hasOwnProperty.call(message, "gender"))
-      writer.uint32(/* id 4, wireType 0 =*/32).int32(message.gender);
+    if (!writer) writer = $Writer.create();
+    if (message.firstname != null && Object.hasOwnProperty.call(message, 'firstname'))
+      writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.firstname);
+    if (message.lastname != null && Object.hasOwnProperty.call(message, 'lastname'))
+      writer.uint32(/* id 2, wireType 2 =*/ 18).string(message.lastname);
+    if (message.age != null && Object.hasOwnProperty.call(message, 'age'))
+      writer.uint32(/* id 3, wireType 0 =*/ 24).uint32(message.age);
+    if (message.gender != null && Object.hasOwnProperty.call(message, 'gender'))
+      writer.uint32(/* id 4, wireType 0 =*/ 32).int32(message.gender);
     return writer;
   };
 
@@ -126,13 +125,12 @@ export const UserRequest = $root.UserRequest = (() => {
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
   UserRequest.decode = function decode(reader, length, error) {
-    if (!(reader instanceof $Reader))
-      reader = $Reader.create(reader);
-    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UserRequest();
+    if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
+    let end = length === undefined ? reader.len : reader.pos + length,
+      message = new $root.UserRequest();
     while (reader.pos < end) {
       let tag = reader.uint32();
-      if (tag === error)
-        break;
+      if (tag === error) break;
       switch (tag >>> 3) {
         case 1: {
           message.firstname = reader.string();
@@ -169,8 +167,7 @@ export const UserRequest = $root.UserRequest = (() => {
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
   UserRequest.decodeDelimited = function decodeDelimited(reader) {
-    if (!(reader instanceof $Reader))
-      reader = new $Reader(reader);
+    if (!(reader instanceof $Reader)) reader = new $Reader(reader);
     return this.decode(reader, reader.uint32());
   };
 
@@ -183,21 +180,17 @@ export const UserRequest = $root.UserRequest = (() => {
    * @returns {string|null} `null` if valid, otherwise the reason why it is not
    */
   UserRequest.verify = function verify(message) {
-    if (typeof message !== "object" || message === null)
-      return "object expected";
-    if (message.firstname != null && message.hasOwnProperty("firstname"))
-      if (!$util.isString(message.firstname))
-        return "firstname: string expected";
-    if (message.lastname != null && message.hasOwnProperty("lastname"))
-      if (!$util.isString(message.lastname))
-        return "lastname: string expected";
-    if (message.age != null && message.hasOwnProperty("age"))
-      if (!$util.isInteger(message.age))
-        return "age: integer expected";
-    if (message.gender != null && message.hasOwnProperty("gender"))
+    if (typeof message !== 'object' || message === null) return 'object expected';
+    if (message.firstname != null && message.hasOwnProperty('firstname'))
+      if (!$util.isString(message.firstname)) return 'firstname: string expected';
+    if (message.lastname != null && message.hasOwnProperty('lastname'))
+      if (!$util.isString(message.lastname)) return 'lastname: string expected';
+    if (message.age != null && message.hasOwnProperty('age'))
+      if (!$util.isInteger(message.age)) return 'age: integer expected';
+    if (message.gender != null && message.hasOwnProperty('gender'))
       switch (message.gender) {
         default:
-          return "gender: enum value expected";
+          return 'gender: enum value expected';
         case 0:
         case 1:
           break;
@@ -214,27 +207,23 @@ export const UserRequest = $root.UserRequest = (() => {
    * @returns {UserRequest} UserRequest
    */
   UserRequest.fromObject = function fromObject(object) {
-    if (object instanceof $root.UserRequest)
-      return object;
+    if (object instanceof $root.UserRequest) return object;
     let message = new $root.UserRequest();
-    if (object.firstname != null)
-      message.firstname = String(object.firstname);
-    if (object.lastname != null)
-      message.lastname = String(object.lastname);
-    if (object.age != null)
-      message.age = object.age >>> 0;
+    if (object.firstname != null) message.firstname = String(object.firstname);
+    if (object.lastname != null) message.lastname = String(object.lastname);
+    if (object.age != null) message.age = object.age >>> 0;
     switch (object.gender) {
       default:
-        if (typeof object.gender === "number") {
+        if (typeof object.gender === 'number') {
           message.gender = object.gender;
           break;
         }
         break;
-      case "MALE":
+      case 'MALE':
       case 0:
         message.gender = 0;
         break;
-      case "FEMALE":
+      case 'FEMALE':
       case 1:
         message.gender = 1;
         break;
@@ -252,23 +241,26 @@ export const UserRequest = $root.UserRequest = (() => {
    * @returns {Object.<string,*>} Plain object
    */
   UserRequest.toObject = function toObject(message, options) {
-    if (!options)
-      options = {};
+    if (!options) options = {};
     let object = {};
     if (options.defaults) {
-      object.firstname = "";
-      object.lastname = "";
+      object.firstname = '';
+      object.lastname = '';
       object.age = 0;
-      object.gender = options.enums === String ? "MALE" : 0;
+      object.gender = options.enums === String ? 'MALE' : 0;
     }
-    if (message.firstname != null && message.hasOwnProperty("firstname"))
+    if (message.firstname != null && message.hasOwnProperty('firstname'))
       object.firstname = message.firstname;
-    if (message.lastname != null && message.hasOwnProperty("lastname"))
+    if (message.lastname != null && message.hasOwnProperty('lastname'))
       object.lastname = message.lastname;
-    if (message.age != null && message.hasOwnProperty("age"))
-      object.age = message.age;
-    if (message.gender != null && message.hasOwnProperty("gender"))
-      object.gender = options.enums === String ? $root.UserRequest.Gender[message.gender] === undefined ? message.gender : $root.UserRequest.Gender[message.gender] : message.gender;
+    if (message.age != null && message.hasOwnProperty('age')) object.age = message.age;
+    if (message.gender != null && message.hasOwnProperty('gender'))
+      object.gender =
+        options.enums === String
+          ? $root.UserRequest.Gender[message.gender] === undefined
+            ? message.gender
+            : $root.UserRequest.Gender[message.gender]
+          : message.gender;
     return object;
   };
 
@@ -293,9 +285,9 @@ export const UserRequest = $root.UserRequest = (() => {
    */
   UserRequest.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
     if (typeUrlPrefix === undefined) {
-      typeUrlPrefix = "type.googleapis.com";
+      typeUrlPrefix = 'type.googleapis.com';
     }
-    return typeUrlPrefix + "/UserRequest";
+    return typeUrlPrefix + '/UserRequest';
   };
 
   /**
@@ -306,17 +298,17 @@ export const UserRequest = $root.UserRequest = (() => {
    * @property {number} FEMALE=1 FEMALE value
    */
   UserRequest.Gender = (function () {
-    const valuesById = {}, values = Object.create(valuesById);
-    values[valuesById[0] = "MALE"] = 0;
-    values[valuesById[1] = "FEMALE"] = 1;
+    const valuesById = {},
+      values = Object.create(valuesById);
+    values[(valuesById[0] = 'MALE')] = 0;
+    values[(valuesById[1] = 'FEMALE')] = 1;
     return values;
   })();
 
   return UserRequest;
-})();
+})());
 
-export const UserResponse = $root.UserResponse = (() => {
-
+export const UserResponse = ($root.UserResponse = (() => {
   /**
    * Properties of a UserResponse.
    * @exports IUserResponse
@@ -336,8 +328,7 @@ export const UserResponse = $root.UserResponse = (() => {
   function UserResponse(properties) {
     if (properties)
       for (let keys = Object.keys(properties), i = 0; i < keys.length; ++i)
-        if (properties[keys[i]] != null)
-          this[keys[i]] = properties[keys[i]];
+        if (properties[keys[i]] != null) this[keys[i]] = properties[keys[i]];
   }
 
   /**
@@ -346,7 +337,7 @@ export const UserResponse = $root.UserResponse = (() => {
    * @memberof UserResponse
    * @instance
    */
-  UserResponse.prototype.id = "";
+  UserResponse.prototype.id = '';
 
   /**
    * UserResponse status.
@@ -378,12 +369,11 @@ export const UserResponse = $root.UserResponse = (() => {
    * @returns {$protobuf.Writer} Writer
    */
   UserResponse.encode = function encode(message, writer) {
-    if (!writer)
-      writer = $Writer.create();
-    if (message.id != null && Object.hasOwnProperty.call(message, "id"))
-      writer.uint32(/* id 1, wireType 2 =*/10).string(message.id);
-    if (message.status != null && Object.hasOwnProperty.call(message, "status"))
-      writer.uint32(/* id 2, wireType 0 =*/16).int32(message.status);
+    if (!writer) writer = $Writer.create();
+    if (message.id != null && Object.hasOwnProperty.call(message, 'id'))
+      writer.uint32(/* id 1, wireType 2 =*/ 10).string(message.id);
+    if (message.status != null && Object.hasOwnProperty.call(message, 'status'))
+      writer.uint32(/* id 2, wireType 0 =*/ 16).int32(message.status);
     return writer;
   };
 
@@ -412,13 +402,12 @@ export const UserResponse = $root.UserResponse = (() => {
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
   UserResponse.decode = function decode(reader, length, error) {
-    if (!(reader instanceof $Reader))
-      reader = $Reader.create(reader);
-    let end = length === undefined ? reader.len : reader.pos + length, message = new $root.UserResponse();
+    if (!(reader instanceof $Reader)) reader = $Reader.create(reader);
+    let end = length === undefined ? reader.len : reader.pos + length,
+      message = new $root.UserResponse();
     while (reader.pos < end) {
       let tag = reader.uint32();
-      if (tag === error)
-        break;
+      if (tag === error) break;
       switch (tag >>> 3) {
         case 1: {
           message.id = reader.string();
@@ -447,8 +436,7 @@ export const UserResponse = $root.UserResponse = (() => {
    * @throws {$protobuf.util.ProtocolError} If required fields are missing
    */
   UserResponse.decodeDelimited = function decodeDelimited(reader) {
-    if (!(reader instanceof $Reader))
-      reader = new $Reader(reader);
+    if (!(reader instanceof $Reader)) reader = new $Reader(reader);
     return this.decode(reader, reader.uint32());
   };
 
@@ -461,15 +449,13 @@ export const UserResponse = $root.UserResponse = (() => {
    * @returns {string|null} `null` if valid, otherwise the reason why it is not
    */
   UserResponse.verify = function verify(message) {
-    if (typeof message !== "object" || message === null)
-      return "object expected";
-    if (message.id != null && message.hasOwnProperty("id"))
-      if (!$util.isString(message.id))
-        return "id: string expected";
-    if (message.status != null && message.hasOwnProperty("status"))
+    if (typeof message !== 'object' || message === null) return 'object expected';
+    if (message.id != null && message.hasOwnProperty('id'))
+      if (!$util.isString(message.id)) return 'id: string expected';
+    if (message.status != null && message.hasOwnProperty('status'))
       switch (message.status) {
         default:
-          return "status: enum value expected";
+          return 'status: enum value expected';
         case 0:
         case 1:
           break;
@@ -486,23 +472,21 @@ export const UserResponse = $root.UserResponse = (() => {
    * @returns {UserResponse} UserResponse
    */
   UserResponse.fromObject = function fromObject(object) {
-    if (object instanceof $root.UserResponse)
-      return object;
+    if (object instanceof $root.UserResponse) return object;
     let message = new $root.UserResponse();
-    if (object.id != null)
-      message.id = String(object.id);
+    if (object.id != null) message.id = String(object.id);
     switch (object.status) {
       default:
-        if (typeof object.status === "number") {
+        if (typeof object.status === 'number') {
           message.status = object.status;
           break;
         }
         break;
-      case "OK":
+      case 'OK':
       case 0:
         message.status = 0;
         break;
-      case "NOT_OK":
+      case 'NOT_OK':
       case 1:
         message.status = 1;
         break;
@@ -520,17 +504,20 @@ export const UserResponse = $root.UserResponse = (() => {
    * @returns {Object.<string,*>} Plain object
    */
   UserResponse.toObject = function toObject(message, options) {
-    if (!options)
-      options = {};
+    if (!options) options = {};
     let object = {};
     if (options.defaults) {
-      object.id = "";
-      object.status = options.enums === String ? "OK" : 0;
+      object.id = '';
+      object.status = options.enums === String ? 'OK' : 0;
     }
-    if (message.id != null && message.hasOwnProperty("id"))
-      object.id = message.id;
-    if (message.status != null && message.hasOwnProperty("status"))
-      object.status = options.enums === String ? $root.UserResponse.Status[message.status] === undefined ? message.status : $root.UserResponse.Status[message.status] : message.status;
+    if (message.id != null && message.hasOwnProperty('id')) object.id = message.id;
+    if (message.status != null && message.hasOwnProperty('status'))
+      object.status =
+        options.enums === String
+          ? $root.UserResponse.Status[message.status] === undefined
+            ? message.status
+            : $root.UserResponse.Status[message.status]
+          : message.status;
     return object;
   };
 
@@ -555,9 +542,9 @@ export const UserResponse = $root.UserResponse = (() => {
    */
   UserResponse.getTypeUrl = function getTypeUrl(typeUrlPrefix) {
     if (typeUrlPrefix === undefined) {
-      typeUrlPrefix = "type.googleapis.com";
+      typeUrlPrefix = 'type.googleapis.com';
     }
-    return typeUrlPrefix + "/UserResponse";
+    return typeUrlPrefix + '/UserResponse';
   };
 
   /**
@@ -568,13 +555,14 @@ export const UserResponse = $root.UserResponse = (() => {
    * @property {number} NOT_OK=1 NOT_OK value
    */
   UserResponse.Status = (function () {
-    const valuesById = {}, values = Object.create(valuesById);
-    values[valuesById[0] = "OK"] = 0;
-    values[valuesById[1] = "NOT_OK"] = 1;
+    const valuesById = {},
+      values = Object.create(valuesById);
+    values[(valuesById[0] = 'OK')] = 0;
+    values[(valuesById[1] = 'NOT_OK')] = 1;
     return values;
   })();
 
   return UserResponse;
-})();
+})());
 
-export {$root as default};
+export { $root as default };

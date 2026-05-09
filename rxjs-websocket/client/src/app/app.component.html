@@ -1,15 +1,34 @@
 <div [merge]="mergeOptions" [options]="options" echarts></div>
 
 <form class="options">
-  <input (change)="switchGauge()" [(ngModel)]="type" [disabled]="networkError" id="temp" name="type" type="radio"
-         value="temp">
+  <input
+    (change)="switchGauge()"
+    [(ngModel)]="type"
+    [disabled]="networkError"
+    id="temp"
+    name="type"
+    type="radio"
+    value="temp"
+  />
   <label for="temp">Temperature</label>
-  <input (change)="switchGauge()" [(ngModel)]="type" [disabled]="networkError" id="hum" name="type" type="radio"
-         value="hum">
+  <input
+    (change)="switchGauge()"
+    [(ngModel)]="type"
+    [disabled]="networkError"
+    id="hum"
+    name="type"
+    type="radio"
+    value="hum"
+  />
   <label for="hum">Humidity</label>
   <div>
-    <button (click)="toggleConnection()" [disabled]="networkError">{{ connected ? 'Disconnect' : 'Connect' }}</button>
+    <button (click)="toggleConnection()" [disabled]="networkError" type="button">
+      {{ connected ? 'Disconnect' : 'Connect' }}
+    </button>
   </div>
+  <p class="status" [class.open]="sensorConnectionState === 'open'" [class.error]="sensorConnectionState === 'error'">
+    Sensor socket: {{ sensorConnectionState }}
+  </p>
 </form>
 
 @if (networkError) {
@@ -17,15 +36,17 @@
 }
 
 <main>
-  <input id="value1" size=5>
-  <select id="operator">
+  <input [(ngModel)]="calculatorValue1" id="value1" name="value1" size="5" type="number" />
+  <select [(ngModel)]="calculatorOperator" id="operator" name="operator">
     <option value="Addition">+</option>
     <option value="Subtraction">-</option>
     <option value="Multiplication">*</option>
     <option value="Division">/</option>
   </select>
-  <input id="value2" size=5> = <span id="result"></span>
-  &nbsp;&nbsp;<button (click)="sendCalculation()" type="button">Calculate</button>
+  <input [(ngModel)]="calculatorValue2" id="value2" name="value2" size="5" type="number" /> = <span id="result">{{ calculationResult ?? '' }}</span> &nbsp;&nbsp;<button
+    (click)="sendCalculation()"
+    type="button"
+  >
+    Calculate
+  </button>
 </main>
-
-

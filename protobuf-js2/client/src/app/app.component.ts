@@ -1,30 +1,26 @@
-import {Component, inject} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {environment} from '../environments/environment';
-import {IUserResponse, UserRequest, UserResponse} from './protos/user';
-import {catchError, map} from 'rxjs/operators';
-import {Observable, throwError} from 'rxjs';
-import {FormsModule} from "@angular/forms";
+import { Component, inject } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../environments/environment';
+import { IUserResponse, UserRequest, UserResponse } from './protos/user';
+import { catchError, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [
-    FormsModule
-  ],
-  styleUrl: './app.component.scss'
+  imports: [FormsModule],
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private readonly httpClient = inject(HttpClient);
 
-
-  submit(formValues: { firstname: string, lastname: string, age: number, gender: string }): void {
-
+  submit(formValues: { firstname: string; lastname: string; age: number; gender: string }): void {
     const encodedUserRequest = UserRequest.encode({
       firstname: formValues.firstname,
       lastname: formValues.lastname,
       age: formValues.age,
-      gender: (formValues.gender === 'MALE') ? UserRequest.Gender.MALE : UserRequest.Gender.FEMALE
+      gender: formValues.gender === 'MALE' ? UserRequest.Gender.MALE : UserRequest.Gender.FEMALE,
     }).finish();
 
     const offset = encodedUserRequest.byteOffset;
@@ -33,17 +29,19 @@ export class AppComponent {
 
     const headers = new HttpHeaders({
       Accept: 'application/x-protobuf',
-      'Content-Type': 'application/x-protobuf'
+      'Content-Type': 'application/x-protobuf',
     });
 
-    this.httpClient.post(`${environment.SERVER_URL}/register-user`, userRequestArrayBuffer, {
-      headers,
-      responseType: 'arraybuffer'
-    })
+    this.httpClient
+      .post(`${environment.SERVER_URL}/register-user`, userRequestArrayBuffer, {
+        headers,
+        responseType: 'arraybuffer',
+      })
       .pipe(
-        map(response => this.parseProtobuf(response)),
-        catchError(this.handleError)
-      ).subscribe(this.handleResponse);
+        map((response) => this.parseProtobuf(response)),
+        catchError(this.handleError),
+      )
+      .subscribe(this.handleResponse);
   }
 
   parseProtobuf(response: ArrayBuffer): IUserResponse {

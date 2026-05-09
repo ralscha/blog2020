@@ -1,4 +1,6 @@
-.options, h2, main {
+.options,
+h2,
+main {
   margin: auto;
   width: 80%;
   text-align: center;
@@ -6,4 +8,18 @@
 
 main {
   margin-top: 10px;
+}
+
+.status {
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 12px;
+}
+
+.status.open {
+  color: #1b6f3a;
+}
+
+.status.error {
+  color: #b42318;
 }

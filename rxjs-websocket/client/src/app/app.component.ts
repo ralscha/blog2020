@@ -1,18 +1,21 @@
-import {Component, OnDestroy} from '@angular/core';
-import {webSocket, WebSocketSubject} from 'rxjs/webSocket';
-import {catchError, concatMap, delay, filter, retry, tap} from 'rxjs/operators';
-import {Observable, of, race, Subject, Subscription, throwError, timer} from 'rxjs';
-import {format} from 'date-fns';
-import {EChartsOption} from 'echarts';
-import {NgxEchartsDirective} from 'ngx-echarts';
-import {FormsModule} from '@angular/forms';
-import {Calculation, Result} from "./protos/calculator";
+import { Component, OnDestroy } from '@angular/core';
+import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
+import { catchError, concatMap, delay, filter, tap } from 'rxjs/operators';
+import { Observable, of, race, Subject, Subscription, throwError, timer } from 'rxjs';
+import { format } from 'date-fns';
+import { EChartsOption } from 'echarts';
+import { NgxEchartsDirective } from 'ngx-echarts';
+import { FormsModule } from '@angular/forms';
+import { Calculation, Result } from './protos/calculator';
+
+type CalculatorOperator = 'Addition' | 'Subtraction' | 'Multiplication' | 'Division';
+type SensorConnectionState = 'closed' | 'connecting' | 'open' | 'error';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  imports: [NgxEchartsDirective, FormsModule]
+  imports: [NgxEchartsDirective, FormsModule],
 })
 export class AppComponent implements OnDestroy {
   options: EChartsOption;
@@ -20,6 +23,11 @@ export class AppComponent implements OnDestroy {
   type: 'temp' | 'hum' = 'temp';
   connected = false;
   networkError = false;
+  sensorConnectionState: SensorConnectionState = 'closed';
+  calculatorValue1 = 10;
+  calculatorValue2 = 5;
+  calculatorOperator: CalculatorOperator = 'Addition';
+  calculationResult: number | null = null;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private webSocketSubject: WebSocketSubject<any> | null = null;
@@ -27,72 +35,78 @@ export class AppComponent implements OnDestroy {
   private dataSubscription: Subscription | null = null;
 
   private tempOptions: EChartsOption = {
-    series: [{
-      name: 'Temperature',
-      type: 'gauge',
-      min: -20,
-      max: 50,
-      splitNumber: 7,
-      detail: {
-        formatter: '{value} °C'
+    series: [
+      {
+        name: 'Temperature',
+        type: 'gauge',
+        min: -20,
+        max: 50,
+        splitNumber: 7,
+        detail: {
+          formatter: '{value} °C',
+        },
+        axisLine: {
+          lineStyle: {
+            color: [
+              [0.29, 'blue'],
+              [0.72, 'green'],
+              [1, 'red'],
+            ],
+          },
+        },
+        data: [],
       },
-      axisLine: {
-        lineStyle: {
-          color: [[0.29, 'blue'], [0.72, 'green'], [1, 'red']]
-        }
-      },
-      data: []
-    }]
+    ],
   };
 
   private humOptions: EChartsOption = {
-    series: [{
-      name: 'Humidity',
-      type: 'gauge',
-      min: 0,
-      max: 100,
-      splitNumber: 10,
-      detail: {
-        formatter: '{value} %'
+    series: [
+      {
+        name: 'Humidity',
+        type: 'gauge',
+        min: 0,
+        max: 100,
+        splitNumber: 10,
+        detail: {
+          formatter: '{value} %',
+        },
+        axisLine: {
+          lineStyle: {
+            color: [
+              [0.2, 'lightblue'],
+              [0.5, 'blue'],
+              [1, 'darkblue'],
+            ],
+          },
+        },
+        data: [],
       },
-      axisLine: {
-        lineStyle: {
-          color: [[0.2, 'lightblue'], [0.5, 'blue'], [1, 'darkblue']]
-        }
-      },
-      data: []
-    }]
+    ],
   };
 
   constructor() {
     this.options = this.tempOptions;
-    this.mergeOptions = {series: {data: [{value: NaN, name: ''}]}};
-
-    const webSocketSubject = webSocket('ws://localhost:8080/sensor');
-    webSocketSubject.pipe(
-      retry({
-        delay: 10_000
-      })
-    )
-      .subscribe(value => console.log(value));
+    this.mergeOptions = { series: { data: [{ value: NaN, name: '' }] } };
   }
 
   startHeartbeat(): void {
     this.stopHeartbeat();
     this.networkError = false;
 
-    const heartbeat$ = timer(1_000, 30_000)
-      .pipe(
-        tap(() => this.connect().next('ping')),
-        concatMap(() => {
-          return race(
-            of('timeout').pipe(delay(3_000)),
-            this.connect().pipe(filter(m => m === 'pong'), catchError(() => of('error')))
-          );
-        })
-      );
+    const heartbeat$ = timer(1_000, 30_000).pipe(
+      tap(() => this.connect().next('ping')),
+      concatMap(() => {
+        return race(
+          of('timeout').pipe(delay(3_000)),
+          this.connect().pipe(
+            filter((m) => m === 'pong'),
+            catchError(() => of('error')),
+          ),
+        );
+      }),
+    );
 
-    this.heartbeatSubscription = heartbeat$.subscribe(msg => {
+    this.heartbeatSubscription = heartbeat$.subscribe((msg) => {
       if (msg === 'pong') {
         this.networkError = false;
       } else {
@@ -111,8 +125,8 @@ export class AppComponent implements OnDestroy {
 
   toggleConnection(): void {
     if (this.connected) {
-      this.disconnect();
       this.connected = false;
+      this.disconnect();
       this.networkError = false;
     } else {
       this.connect();
@@ -130,15 +144,17 @@ export class AppComponent implements OnDestroy {
     if (this.connected) {
       this.startListening();
     }
-
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   connect(): WebSocketSubject<any> {
     if (!this.webSocketSubject) {
+      this.sensorConnectionState = 'connecting';
+
       const closeSubject = new Subject<CloseEvent>();
       closeSubject.subscribe(() => {
         this.webSocketSubject = null;
+        this.sensorConnectionState = this.connected ? 'error' : 'closed';
         if (this.connected) {
           this.networkError = true;
         }
@@ -148,8 +164,11 @@ export class AppComponent implements OnDestroy {
         url: 'ws://localhost:8080/sensor',
         closeObserver: closeSubject,
         openObserver: {
-          next: () => console.log('connection open')
-        }
+          next: () => {
+            this.sensorConnectionState = 'open';
+            this.networkError = false;
+          },
+        },
       });
 
       this.startListening();
@@ -160,6 +179,8 @@ export class AppComponent implements OnDestroy {
   }
 
   disconnect(): void {
+    this.sensorConnectionState = 'closed';
+
     if (this.webSocketSubject) {
       this.stopHeartbeat();
       this.networkError = false;
@@ -174,95 +195,35 @@ export class AppComponent implements OnDestroy {
   }
 
   sendCalculation(): void {
-    /*
-    const w = new WebSocket('ws://localhost:8080/calculator');
-    w.binaryType = 'arraybuffer';
-    w.onopen = () => {
-      const calculaton = Calculation.encode({operation: Operation.Addition, value1: 10, value2: 5}).finish();
-      const offset = calculaton.byteOffset;
-      const length = calculaton.byteLength;
-      w.send(calculaton.buffer.slice(offset, offset + length));
-    };
-    w.onmessage = msg => {
-      console.log(msg.data);
-      const result = Result.decode(new Uint8Array(msg.data));
-      console.log(result.result);
-    };
-    */
-    const value1Element = document.getElementById('value1') as HTMLInputElement;
-    const value2Element = document.getElementById('value2') as HTMLInputElement;
-    const operatorElement = document.getElementById('operator') as HTMLInputElement;
-    const resultElement = document.getElementById('result') as HTMLInputElement;
+    this.calculationResult = null;
 
-    let operation: number;
-    switch (operatorElement.value) {
-      case 'Addition':
-        operation = Calculation.Operation.Addition;
-        break;
-      case 'Subtraction':
-        operation = Calculation.Operation.Subtraction;
-        break;
-      case 'Multiplication':
-        operation = Calculation.Operation.Multiplication;
-        break;
-      case 'Division':
-        operation = Calculation.Operation.Division;
-        break;
-    }
+    const operation = this.getCalculationOperation(this.calculatorOperator);
 
     const ws = webSocket({
       binaryType: 'arraybuffer',
       url: 'ws://localhost:8080/calculator',
-      serializer: v => v as ArrayBuffer,
-      deserializer: v => v.data,
+      serializer: (v) => v as ArrayBuffer,
+      deserializer: (v) => v.data,
       openObserver: {
         next: () => {
           const calculaton = Calculation.encode({
             operation,
-            value1: parseFloat(value1Element.value),
-            value2: parseFloat(value2Element.value)
+            value1: this.calculatorValue1,
+            value2: this.calculatorValue2,
           }).finish();
           const offset = calculaton.byteOffset;
           const length = calculaton.byteLength;
           ws.next(calculaton.buffer.slice(offset, offset + length));
-        }
-      }
-    });
-
-    const sub = ws.subscribe(response => {
-      const result = Result.decode(new Uint8Array(response as ArrayBuffer));
-      resultElement.innerText = String(result.result);
-      sub.unsubscribe();
-    });
-
-    /*
-    const ws = webSocket({
-      binaryType: 'arraybuffer',
-      url: 'ws://localhost:8080/calculator',
-      serializer: (msg: Uint8Array) => {
-        const offset = msg.byteOffset;
-        const length = msg.byteLength;
-        return msg.buffer.slice(offset, offset + length);
+        },
       },
-      deserializer: msg => new Uint8Array(msg.data as ArrayBuffer),
-      openObserver: {
-        next: () => {
-          const calculaton = Calculation.encode({
-            operation,
-            value1: parseFloat(value1Element.value),
-            value2: parseFloat(value2Element.value)
-          }).finish();
-          ws.next(calculaton);
-        }
-      }
     });
 
-    const sub = ws.subscribe(response => {
-      const result = Result.decode(response);
-      resultElement.innerText = String(result.result);
+    const sub = ws.subscribe((response) => {
+      const result = Result.decode(new Uint8Array(response as ArrayBuffer));
+      this.calculationResult = result.result;
+      ws.complete();
       sub.unsubscribe();
     });
-    */
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -271,9 +232,17 @@ export class AppComponent implements OnDestroy {
       return throwError(() => new Error('websocket subject not set'));
     }
     if (this.type === 'temp') {
-      return this.webSocketSubject.multiplex(() => 'subscribe-temp', () => 'unsubscribe-temp', message => message.temperature);
+      return this.webSocketSubject.multiplex(
+        () => 'subscribe-temp',
+        () => 'unsubscribe-temp',
+        (message) => message.temperature,
+      );
     } else {
-      return this.webSocketSubject.multiplex(() => 'subscribe-hum', () => 'unsubscribe-hum', message => message.humidity);
+      return this.webSocketSubject.multiplex(
+        () => 'subscribe-hum',
+        () => 'unsubscribe-hum',
+        (message) => message.humidity,
+      );
     }
   }
 
@@ -282,14 +251,26 @@ export class AppComponent implements OnDestroy {
       this.dataSubscription.unsubscribe();
     }
 
-    this.dataSubscription = this.getDataObservable().subscribe(data => {
+    this.dataSubscription = this.getDataObservable().subscribe((data) => {
       const ts = format(new Date(data.ts * 1000), 'HH:mm:ss');
       if (this.type === 'temp') {
-        this.mergeOptions = {series: {data: [{value: data.temperature, name: ts}]}};
+        this.mergeOptions = { series: { data: [{ value: data.temperature, name: ts }] } };
       } else {
-        this.mergeOptions = {series: {data: [{value: data.humidity, name: ts}]}};
+        this.mergeOptions = { series: { data: [{ value: data.humidity, name: ts }] } };
       }
     });
   }
 
+  private getCalculationOperation(operator: CalculatorOperator): number {
+    switch (operator) {
+      case 'Addition':
+        return Calculation.Operation.Addition;
+      case 'Subtraction':
+        return Calculation.Operation.Subtraction;
+      case 'Multiplication':
+        return Calculation.Operation.Multiplication;
+      case 'Division':
+        return Calculation.Operation.Division;
+    }
+  }
 }

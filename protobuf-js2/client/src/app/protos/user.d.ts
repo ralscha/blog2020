@@ -1,11 +1,11 @@
-import * as $protobuf from "protobufjs";
-import Long = require("long");
+import * as $protobuf from 'protobufjs';
+import Long = require('long');
 
 export interface IUserRequest {
-  firstname?: (string | null);
-  lastname?: (string | null);
-  age?: (number | null);
-  gender?: (UserRequest.Gender | null);
+  firstname?: string | null;
+  lastname?: string | null;
+  age?: number | null;
+  gender?: UserRequest.Gender | null;
 }
 
 export class UserRequest implements IUserRequest {
@@ -22,15 +22,18 @@ export class UserRequest implements IUserRequest {
 
   public static encodeDelimited(message: IUserRequest, writer?: $protobuf.Writer): $protobuf.Writer;
 
-  public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): UserRequest;
+  public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): UserRequest;
 
-  public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): UserRequest;
+  public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): UserRequest;
 
-  public static verify(message: { [k: string]: any }): (string | null);
+  public static verify(message: { [k: string]: any }): string | null;
 
   public static fromObject(object: { [k: string]: any }): UserRequest;
 
-  public static toObject(message: UserRequest, options?: $protobuf.IConversionOptions): { [k: string]: any };
+  public static toObject(
+    message: UserRequest,
+    options?: $protobuf.IConversionOptions,
+  ): { [k: string]: any };
 
   public toJSON(): { [k: string]: any };
 
@@ -38,16 +41,15 @@ export class UserRequest implements IUserRequest {
 }
 
 export namespace UserRequest {
-
   enum Gender {
     MALE = 0,
-    FEMALE = 1
+    FEMALE = 1,
   }
 }
 
 export interface IUserResponse {
-  id?: (string | null);
-  status?: (UserResponse.Status | null);
+  id?: string | null;
+  status?: UserResponse.Status | null;
 }
 
 export class UserResponse implements IUserResponse {
@@ -60,17 +62,23 @@ export class UserResponse implements IUserResponse {
 
   public static encode(message: IUserResponse, writer?: $protobuf.Writer): $protobuf.Writer;
 
-  public static encodeDelimited(message: IUserResponse, writer?: $protobuf.Writer): $protobuf.Writer;
+  public static encodeDelimited(
+    message: IUserResponse,
+    writer?: $protobuf.Writer,
+  ): $protobuf.Writer;
 
-  public static decode(reader: ($protobuf.Reader | Uint8Array), length?: number): UserResponse;
+  public static decode(reader: $protobuf.Reader | Uint8Array, length?: number): UserResponse;
 
-  public static decodeDelimited(reader: ($protobuf.Reader | Uint8Array)): UserResponse;
+  public static decodeDelimited(reader: $protobuf.Reader | Uint8Array): UserResponse;
 
-  public static verify(message: { [k: string]: any }): (string | null);
+  public static verify(message: { [k: string]: any }): string | null;
 
   public static fromObject(object: { [k: string]: any }): UserResponse;
 
-  public static toObject(message: UserResponse, options?: $protobuf.IConversionOptions): { [k: string]: any };
+  public static toObject(
+    message: UserResponse,
+    options?: $protobuf.IConversionOptions,
+  ): { [k: string]: any };
 
   public toJSON(): { [k: string]: any };
 
@@ -78,9 +86,8 @@ export class UserResponse implements IUserResponse {
 }
 
 export namespace UserResponse {
-
   enum Status {
     OK = 0,
-    NOT_OK = 1
+    NOT_OK = 1,
   }
 }
