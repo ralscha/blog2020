@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@maptiler/sdk": "3.11.1",
-    "date-fns": "4.1.0",
+    "date-fns": "4.4.0",
     "lg-autoplay.js": "1.2.0",
     "lg-fullscreen.js": "1.2.0",
     "lg-zoom.js": "1.3.0",
@@ -18,6 +18,6 @@
   },
   "devDependencies": {
     "bread-compressor-cli": "4.1.0",
-    "vite": "8.0.12"
+    "vite": "8.0.14"
   }
 }
