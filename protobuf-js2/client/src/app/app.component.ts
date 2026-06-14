@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { IUserResponse, UserRequest, UserResponse } from './protos/user';
@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   selector: 'app-root',
   templateUrl: './app.component.html',
   imports: [FormsModule],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.scss',
 })
 export class AppComponent {

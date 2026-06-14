@@ -8,11 +8,11 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "esbuild": "0.28.0",
-    "vite": "8.0.14"
+    "esbuild": "0.28.1",
+    "vite": "8.0.16"
   },
   "dependencies": {
-    "@googlemaps/js-api-loader": "2.0.2",
+    "@googlemaps/js-api-loader": "2.1.1",
     "@googlemaps/markerclusterer": "2.6.2",
     "date-fns": "4.4.0",
     "lg-autoplay.js": "1.2.0",

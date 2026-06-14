@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, inject} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, ChangeDetectionStrategy} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {timeout} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
@@ -24,6 +24,7 @@ import {
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonGrid, IonRow, IonCol, IonCheckbox, IonList, IonItem, IonLabel]
 })
 export class HomePage {

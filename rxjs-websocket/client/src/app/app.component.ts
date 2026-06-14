@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, concatMap, delay, filter, tap } from 'rxjs/operators';
 import { Observable, of, race, Subject, Subscription, throwError, timer } from 'rxjs';
@@ -15,6 +15,7 @@ type SensorConnectionState = 'closed' | 'connecting' | 'open' | 'error';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [NgxEchartsDirective, FormsModule],
 })
 export class AppComponent implements OnDestroy {

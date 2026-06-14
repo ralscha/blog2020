@@ -26,7 +26,11 @@
       {{ connected ? 'Disconnect' : 'Connect' }}
     </button>
   </div>
-  <p class="status" [class.open]="sensorConnectionState === 'open'" [class.error]="sensorConnectionState === 'error'">
+  <p
+    class="status"
+    [class.open]="sensorConnectionState === 'open'"
+    [class.error]="sensorConnectionState === 'error'"
+  >
     Sensor socket: {{ sensorConnectionState }}
   </p>
 </form>
@@ -43,7 +47,8 @@
     <option value="Multiplication">*</option>
     <option value="Division">/</option>
   </select>
-  <input [(ngModel)]="calculatorValue2" id="value2" name="value2" size="5" type="number" /> = <span id="result">{{ calculationResult ?? '' }}</span> &nbsp;&nbsp;<button
+  <input [(ngModel)]="calculatorValue2" id="value2" name="value2" size="5" type="number" /> =
+  <span id="result">{{ calculationResult ?? '' }}</span> &nbsp;&nbsp;<button
     (click)="sendCalculation()"
     type="button"
   >
