@@ -20,7 +20,7 @@
     "@capacitor/app": "8.1.0",
     "@capacitor/core": "8.4.0",
     "@capacitor/haptics": "8.0.2",
-    "@capacitor/keyboard": "8.0.3",
+    "@capacitor/keyboard": "8.0.5",
     "@capacitor/local-notifications": "8.2.0",
     "@capacitor/push-notifications": "8.1.1",
     "@capacitor/status-bar": "8.0.2",
