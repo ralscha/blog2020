@@ -1,6 +1,6 @@
 <ion-app>
   <ion-content class="ion-padding">
-    <form #form="ngForm" (ngSubmit)="form.valid && submit(form)">
+    <form [formRoot]="signupForm" (submit)="signupForm().valid() && submit()">
       <ion-item>
         <ion-input
           [required]="true"
@@ -9,8 +9,7 @@
           autocomplete="username"
           label="Username"
           labelPlacement="stacked"
-          name="username"
-          ngModel
+          [formField]="signupForm.username"
           type="text"
         />
       </ion-item>
@@ -23,15 +22,16 @@
           email
           label="Email"
           labelPlacement="stacked"
-          name="email"
-          ngModel
+          [formField]="signupForm.email"
           type="email"
         />
       </ion-item>
       <ion-item>
-        <ng-hcaptcha name="captcha" ngModel />
+        <ng-hcaptcha [formField]="signupForm.captcha" />
       </ion-item>
-      <ion-button expand="block" type="submit">Sign Up</ion-button>
+      <ion-button [disabled]="!signupForm().valid()" expand="block" type="submit"
+        >Sign Up</ion-button
+      >
     </form>
   </ion-content>
 </ion-app>

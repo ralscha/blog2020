@@ -5,11 +5,10 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { NgHcaptchaModule } from 'ng-hcaptcha';
 import { environment } from './environments/environment';
 import { AppComponent } from './app/app.component';
-import { importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    provideZoneChangeDetection(),
     provideIonicAngular(),
     importProvidersFrom(
       NgHcaptchaModule.forRoot({

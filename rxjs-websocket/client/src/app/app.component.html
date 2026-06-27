@@ -1,10 +1,10 @@
-<div [merge]="mergeOptions" [options]="options" echarts></div>
+<div [merge]="mergeOptions()" [options]="options()" echarts></div>
 
 <form class="options">
   <input
-    (change)="switchGauge()"
-    [(ngModel)]="type"
-    [disabled]="networkError"
+    [checked]="type() === 'temp'"
+    (change)="type.set('temp'); switchGauge()"
+    [disabled]="networkError()"
     id="temp"
     name="type"
     type="radio"
@@ -12,9 +12,9 @@
   />
   <label for="temp">Temperature</label>
   <input
-    (change)="switchGauge()"
-    [(ngModel)]="type"
-    [disabled]="networkError"
+    [checked]="type() === 'hum'"
+    (change)="type.set('hum'); switchGauge()"
+    [disabled]="networkError()"
     id="hum"
     name="type"
     type="radio"
@@ -22,33 +22,49 @@
   />
   <label for="hum">Humidity</label>
   <div>
-    <button (click)="toggleConnection()" [disabled]="networkError" type="button">
-      {{ connected ? 'Disconnect' : 'Connect' }}
+    <button (click)="toggleConnection()" [disabled]="networkError()" type="button">
+      {{ connected() ? 'Disconnect' : 'Connect' }}
     </button>
   </div>
   <p
     class="status"
-    [class.open]="sensorConnectionState === 'open'"
-    [class.error]="sensorConnectionState === 'error'"
+    [class.open]="sensorConnectionState() === 'open'"
+    [class.error]="sensorConnectionState() === 'error'"
   >
-    Sensor socket: {{ sensorConnectionState }}
+    Sensor socket: {{ sensorConnectionState() }}
   </p>
 </form>
 
-@if (networkError) {
+@if (networkError()) {
   <h2>Network Error</h2>
 }
 
 <main>
-  <input [(ngModel)]="calculatorValue1" id="value1" name="value1" size="5" type="number" />
-  <select [(ngModel)]="calculatorOperator" id="operator" name="operator">
+  <input
+    [value]="calculatorValue1()"
+    (input)="calculatorValue1.set($any($event.target).valueAsNumber)"
+    id="value1"
+    size="5"
+    type="number"
+  />
+  <select
+    [value]="calculatorOperator()"
+    (change)="calculatorOperator.set($any($event.target).value)"
+    id="operator"
+  >
     <option value="Addition">+</option>
     <option value="Subtraction">-</option>
     <option value="Multiplication">*</option>
     <option value="Division">/</option>
   </select>
-  <input [(ngModel)]="calculatorValue2" id="value2" name="value2" size="5" type="number" /> =
-  <span id="result">{{ calculationResult ?? '' }}</span> &nbsp;&nbsp;<button
+  <input
+    [value]="calculatorValue2()"
+    (input)="calculatorValue2.set($any($event.target).valueAsNumber)"
+    id="value2"
+    size="5"
+    type="number"
+  />
+  = <span id="result">{{ calculationResult() ?? '' }}</span> &nbsp;&nbsp;<button
     (click)="sendCalculation()"
     type="button"
   >

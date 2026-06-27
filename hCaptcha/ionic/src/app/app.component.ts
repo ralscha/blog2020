@@ -1,5 +1,5 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
 import {
   IonApp,
@@ -11,21 +11,43 @@ import {
 } from '@ionic/angular/standalone';
 import { NgHcaptchaModule } from 'ng-hcaptcha';
 
+interface SignupForm {
+  username: string;
+  email: string;
+  captcha: string;
+}
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [FormsModule, IonApp, IonContent, IonItem, IonInput, NgHcaptchaModule, IonButton],
+  imports: [
+    FormField,
+    FormRoot,
+    IonApp,
+    IonContent,
+    IonItem,
+    IonInput,
+    NgHcaptchaModule,
+    IonButton,
+  ],
 })
 export class AppComponent {
+  readonly signupModel = signal<SignupForm>({
+    username: '',
+    email: '',
+    captcha: '',
+  });
+  readonly signupForm = form(this.signupModel);
+
   private readonly httpClient = inject(HttpClient);
   private toastController = inject(ToastController);
 
-  submit(form: NgForm): void {
+  submit(): void {
+    const { email, username, captcha } = this.signupModel();
     const formData = new FormData();
-    formData.append('email', form.value.email);
-    formData.append('username', form.value.username);
-    formData.append('h-captcha-response', form.value.captcha);
+    formData.append('email', email);
+    formData.append('username', username);
+    formData.append('h-captcha-response', captcha);
 
     this.httpClient.post<boolean>('/signup', formData).subscribe((ok) => {
       if (ok) {

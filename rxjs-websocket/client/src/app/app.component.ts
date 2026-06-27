@@ -1,11 +1,10 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, signal } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { catchError, concatMap, delay, filter, tap } from 'rxjs/operators';
 import { Observable, of, race, Subject, Subscription, throwError, timer } from 'rxjs';
 import { format } from 'date-fns';
 import { EChartsOption } from 'echarts';
 import { NgxEchartsDirective } from 'ngx-echarts';
-import { FormsModule } from '@angular/forms';
 import { Calculation, Result } from './protos/calculator';
 
 type CalculatorOperator = 'Addition' | 'Subtraction' | 'Multiplication' | 'Division';
@@ -15,26 +14,9 @@ type SensorConnectionState = 'closed' | 'connecting' | 'open' | 'error';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [NgxEchartsDirective, FormsModule],
+  imports: [NgxEchartsDirective],
 })
 export class AppComponent implements OnDestroy {
-  options: EChartsOption;
-  mergeOptions: EChartsOption;
-  type: 'temp' | 'hum' = 'temp';
-  connected = false;
-  networkError = false;
-  sensorConnectionState: SensorConnectionState = 'closed';
-  calculatorValue1 = 10;
-  calculatorValue2 = 5;
-  calculatorOperator: CalculatorOperator = 'Addition';
-  calculationResult: number | null = null;
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private webSocketSubject: WebSocketSubject<any> | null = null;
-  private heartbeatSubscription: Subscription | null = null;
-  private dataSubscription: Subscription | null = null;
-
   private tempOptions: EChartsOption = {
     series: [
       {
@@ -85,14 +67,25 @@ export class AppComponent implements OnDestroy {
     ],
   };
 
-  constructor() {
-    this.options = this.tempOptions;
-    this.mergeOptions = { series: { data: [{ value: NaN, name: '' }] } };
-  }
+  options = signal<EChartsOption>(this.tempOptions);
+  mergeOptions = signal<EChartsOption>({ series: { data: [{ value: NaN, name: '' }] } });
+  type = signal<'temp' | 'hum'>('temp');
+  connected = signal(false);
+  networkError = signal(false);
+  sensorConnectionState = signal<SensorConnectionState>('closed');
+  calculatorValue1 = signal(10);
+  calculatorValue2 = signal(5);
+  calculatorOperator = signal<CalculatorOperator>('Addition');
+  calculationResult = signal<number | null>(null);
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private webSocketSubject: WebSocketSubject<any> | null = null;
+  private heartbeatSubscription: Subscription | null = null;
+  private dataSubscription: Subscription | null = null;
 
   startHeartbeat(): void {
     this.stopHeartbeat();
-    this.networkError = false;
+    this.networkError.set(false);
 
     const heartbeat$ = timer(1_000, 30_000).pipe(
       tap(() => this.connect().next('ping')),
@@ -109,9 +102,9 @@ export class AppComponent implements OnDestroy {
 
     this.heartbeatSubscription = heartbeat$.subscribe((msg) => {
       if (msg === 'pong') {
-        this.networkError = false;
+        this.networkError.set(false);
       } else {
-        this.networkError = true;
+        this.networkError.set(true);
         this.webSocketSubject?.complete();
         this.webSocketSubject = null;
       }
@@ -125,24 +118,24 @@ export class AppComponent implements OnDestroy {
   }
 
   toggleConnection(): void {
-    if (this.connected) {
-      this.connected = false;
+    if (this.connected()) {
+      this.connected.set(false);
       this.disconnect();
-      this.networkError = false;
+      this.networkError.set(false);
     } else {
       this.connect();
-      this.connected = true;
+      this.connected.set(true);
     }
   }
 
   switchGauge(): void {
-    if (this.type === 'temp') {
-      this.options = this.tempOptions;
+    if (this.type() === 'temp') {
+      this.options.set(this.tempOptions);
     } else {
-      this.options = this.humOptions;
+      this.options.set(this.humOptions);
     }
 
-    if (this.connected) {
+    if (this.connected()) {
       this.startListening();
     }
   }
@@ -150,14 +143,14 @@ export class AppComponent implements OnDestroy {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   connect(): WebSocketSubject<any> {
     if (!this.webSocketSubject) {
-      this.sensorConnectionState = 'connecting';
+      this.sensorConnectionState.set('connecting');
 
       const closeSubject = new Subject<CloseEvent>();
       closeSubject.subscribe(() => {
         this.webSocketSubject = null;
-        this.sensorConnectionState = this.connected ? 'error' : 'closed';
-        if (this.connected) {
-          this.networkError = true;
+        this.sensorConnectionState.set(this.connected() ? 'error' : 'closed');
+        if (this.connected()) {
+          this.networkError.set(true);
         }
       });
 
@@ -166,8 +159,8 @@ export class AppComponent implements OnDestroy {
         closeObserver: closeSubject,
         openObserver: {
           next: () => {
-            this.sensorConnectionState = 'open';
-            this.networkError = false;
+            this.sensorConnectionState.set('open');
+            this.networkError.set(false);
           },
         },
       });
@@ -180,11 +173,11 @@ export class AppComponent implements OnDestroy {
   }
 
   disconnect(): void {
-    this.sensorConnectionState = 'closed';
+    this.sensorConnectionState.set('closed');
 
     if (this.webSocketSubject) {
       this.stopHeartbeat();
-      this.networkError = false;
+      this.networkError.set(false);
 
       this.webSocketSubject.complete();
       this.webSocketSubject = null;
@@ -196,9 +189,9 @@ export class AppComponent implements OnDestroy {
   }
 
   sendCalculation(): void {
-    this.calculationResult = null;
+    this.calculationResult.set(null);
 
-    const operation = this.getCalculationOperation(this.calculatorOperator);
+    const operation = this.getCalculationOperation(this.calculatorOperator());
 
     const ws = webSocket({
       binaryType: 'arraybuffer',
@@ -209,8 +202,8 @@ export class AppComponent implements OnDestroy {
         next: () => {
           const calculaton = Calculation.encode({
             operation,
-            value1: this.calculatorValue1,
-            value2: this.calculatorValue2,
+            value1: this.calculatorValue1(),
+            value2: this.calculatorValue2(),
           }).finish();
           const offset = calculaton.byteOffset;
           const length = calculaton.byteLength;
@@ -221,7 +214,7 @@ export class AppComponent implements OnDestroy {
 
     const sub = ws.subscribe((response) => {
       const result = Result.decode(new Uint8Array(response as ArrayBuffer));
-      this.calculationResult = result.result;
+      this.calculationResult.set(result.result);
       ws.complete();
       sub.unsubscribe();
     });
@@ -232,7 +225,7 @@ export class AppComponent implements OnDestroy {
     if (!this.webSocketSubject) {
       return throwError(() => new Error('websocket subject not set'));
     }
-    if (this.type === 'temp') {
+    if (this.type() === 'temp') {
       return this.webSocketSubject.multiplex(
         () => 'subscribe-temp',
         () => 'unsubscribe-temp',
@@ -254,10 +247,10 @@ export class AppComponent implements OnDestroy {
 
     this.dataSubscription = this.getDataObservable().subscribe((data) => {
       const ts = format(new Date(data.ts * 1000), 'HH:mm:ss');
-      if (this.type === 'temp') {
-        this.mergeOptions = { series: { data: [{ value: data.temperature, name: ts }] } };
+      if (this.type() === 'temp') {
+        this.mergeOptions.set({ series: { data: [{ value: data.temperature, name: ts }] } });
       } else {
-        this.mergeOptions = { series: { data: [{ value: data.humidity, name: ts }] } };
+        this.mergeOptions.set({ series: { data: [{ value: data.humidity, name: ts }] } });
       }
     });
   }

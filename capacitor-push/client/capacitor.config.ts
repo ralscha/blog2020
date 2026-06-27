@@ -4,7 +4,7 @@ const config: CapacitorConfig = {
   appId: 'ch.rasc.push',
   appName: 'push',
   webDir: 'www',
-  bundledWebRuntime: false
+  bundledWebRuntime: false,
 };
 
 export default config;

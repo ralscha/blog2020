@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, viewChild } from '@angular/core';
 import { GoogleMap, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
 import { YouTubePlayer } from '@angular/youtube-player';
 
@@ -14,7 +14,6 @@ type MarkerObject = {
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [GoogleMap, MapAdvancedMarker, MapInfoWindow, YouTubePlayer],
 })
 export class AppComponent implements OnInit {

@@ -1,22 +1,37 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
 import { IUserResponse, UserRequest, UserResponse } from './protos/user';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
-import { FormsModule } from '@angular/forms';
+import { FormField, FormRoot, form } from '@angular/forms/signals';
+
+interface UserForm {
+  firstname: string;
+  lastname: string;
+  age: number;
+  gender: string;
+}
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  imports: [FormsModule],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  imports: [FormField, FormRoot],
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  readonly userModel = signal<UserForm>({
+    firstname: '',
+    lastname: '',
+    age: 0,
+    gender: 'MALE',
+  });
+  readonly userForm = form(this.userModel);
+
   private readonly httpClient = inject(HttpClient);
 
-  submit(formValues: { firstname: string; lastname: string; age: number; gender: string }): void {
+  submit(): void {
+    const formValues = this.userModel();
     const encodedUserRequest = UserRequest.encode({
       firstname: formValues.firstname,
       lastname: formValues.lastname,
@@ -54,7 +69,7 @@ export class AppComponent {
     console.log(`Status: ${userResponse.status === UserResponse.Status.OK ? 'OK' : 'NOT_OK'}`);
   }
 
-  handleError(error: any): Observable<any> {
+  handleError(error: unknown): Observable<never> {
     console.error(error);
     return throwError(() => error || 'Server error');
   }
