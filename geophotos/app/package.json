@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "esbuild": "0.28.1",
-    "vite": "8.2.0"
+    "vite": "8.2.1"
   },
   "dependencies": {
     "@googlemaps/js-api-loader": "2.1.1",
