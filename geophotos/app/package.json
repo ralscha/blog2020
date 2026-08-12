@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "esbuild": "0.28.1",
+    "esbuild": "0.28.2",
     "vite": "8.2.1"
   },
   "dependencies": {
