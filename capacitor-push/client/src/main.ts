@@ -4,10 +4,7 @@ import {
   Routes,
   withHashLocation,
 } from '@angular/router';
-import {
-  IonicRouteStrategy,
-  provideIonicAngular,
-} from '@ionic/angular/standalone';
+import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular';
 import {
   provideHttpClient,
   withInterceptorsFromDi,

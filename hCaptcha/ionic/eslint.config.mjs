@@ -13,6 +13,8 @@ export default tseslint.config(
     processor: angular.processInlineTemplates,
     rules: {
       '@angular-eslint/component-class-suffix': 'off',
+      // Angular 22 uses Eager here to preserve the example's existing change-detection behavior.
+      '@angular-eslint/prefer-on-push-component-change-detection': 'off',
     },
   },
   {

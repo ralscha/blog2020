@@ -1,14 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormField, FormRoot, form } from '@angular/forms/signals';
 import { HttpClient } from '@angular/common/http';
-import {
-  IonApp,
-  IonButton,
-  IonContent,
-  IonInput,
-  IonItem,
-  ToastController,
-} from '@ionic/angular/standalone';
+import { IonApp, IonButton, IonContent, IonInput, IonItem, ToastController } from '@ionic/angular';
 import { NgHcaptchaModule } from 'ng-hcaptcha';
 
 interface SignupForm {
@@ -18,6 +11,7 @@ interface SignupForm {
 }
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.Eager,
   selector: 'app-root',
   templateUrl: './app.component.html',
   imports: [
