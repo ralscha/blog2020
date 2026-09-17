@@ -11,13 +11,13 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "22.1.6",
-    "@angular/common": "22.1.6",
-    "@angular/compiler": "22.1.6",
-    "@angular/core": "22.1.6",
-    "@angular/forms": "22.1.6",
-    "@angular/platform-browser": "22.1.6",
-    "@angular/router": "22.1.6",
+    "@angular/animations": "22.1.7",
+    "@angular/common": "22.1.7",
+    "@angular/compiler": "22.1.7",
+    "@angular/core": "22.1.7",
+    "@angular/forms": "22.1.7",
+    "@angular/platform-browser": "22.1.7",
+    "@angular/router": "22.1.7",
     "date-fns": "4.4.0",
     "echarts": "6.1.0",
     "ngx-echarts": "22.0.0",
@@ -29,9 +29,9 @@
   "devDependencies": {
     "@angular/build": "22.1.8",
     "@angular/cli": "22.1.8",
-    "@angular/compiler-cli": "22.1.6",
+    "@angular/compiler-cli": "22.1.7",
     "local-web-server": "5.4.0",
-    "prettier": "3.9.6",
+    "prettier": "3.9.7",
     "protobufjs-cli": "2.7.0",
     "typescript": "6.0.3"
   }
