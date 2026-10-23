@@ -72,7 +72,7 @@ func createLambda(ctx *pulumi.Context, role *iam.Role) (*lambda.Function, error)
 	})
 
 	args := &lambda.FunctionArgs{
-		Runtime:       pulumi.String("provided.al2"),
+		Runtime:       pulumi.String("provided.al2023"),
 		Handler:       pulumi.String("bootstrap"),
 		Code:          codeArchive,
 		MemorySize:    pulumi.Int(128),

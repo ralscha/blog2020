@@ -1,4 +1,4 @@
-import { Component, OnInit, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { GoogleMap, MapAdvancedMarker, MapInfoWindow } from '@angular/google-maps';
 import { YouTubePlayer } from '@angular/youtube-player';
 
@@ -16,12 +16,12 @@ type MarkerObject = {
   styleUrl: './app.component.css',
   imports: [GoogleMap, MapAdvancedMarker, MapInfoWindow, YouTubePlayer],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   readonly infoWindow = viewChild.required(MapInfoWindow);
 
   videoId: string | null = null;
 
-  readonly youtubePlayer = viewChild.required(YouTubePlayer);
+  readonly youtubePlayer = viewChild(YouTubePlayer);
 
   markers: MarkerObject[] = [
     {
@@ -103,12 +103,6 @@ export class AppComponent implements OnInit {
   center = { lat: 19.689138, lng: 95.970246 };
   zoom = 6;
   info: string | null = null;
-
-  ngOnInit(): void {
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    document.body.appendChild(tag);
-  }
 
   openInfoWindow(markerElement: MapAdvancedMarker, marker: MarkerObject): void {
     const youtubePlayer = this.youtubePlayer();

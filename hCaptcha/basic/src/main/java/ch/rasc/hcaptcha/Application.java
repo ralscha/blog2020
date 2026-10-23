@@ -55,7 +55,7 @@ public class Application {
       sb.append(this.hCaptchaSecretKey);
 
       HttpRequest request = HttpRequest.newBuilder()
-          .uri(URI.create("https://hcaptcha.com/siteverify"))
+          .uri(URI.create("https://api.hcaptcha.com/siteverify"))
           .header("Content-Type", "application/x-www-form-urlencoded")
           .timeout(Duration.ofSeconds(10)).POST(BodyPublishers.ofString(sb.toString()))
           .build();

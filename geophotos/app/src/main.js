@@ -6,7 +6,10 @@ import 'lg-fullscreen.js';
 import 'lg-autoplay.js';
 import 'lg-zoom.js';
 
-const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyAZjJ216B4aJGdXTwXNevmXesob9RUSlPc';
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+if (!GOOGLE_MAPS_API_KEY) {
+  throw new Error('Set VITE_GOOGLE_MAPS_API_KEY in your Vite environment file.');
+}
 const GOOGLE_MAP_ID = import.meta.env.VITE_GOOGLE_MAP_ID || 'DEMO_MAP_ID';
 
 let map;
