@@ -59,6 +59,10 @@ updates:
       - patch
 - package-ecosystem: gradle
   directory: /capacitor-push/client/android
+  ignore:
+  - dependency-name: gradle-wrapper
+    versions:
+    - '>=9.0.0'
   schedule:
     interval: weekly
     day: monday
