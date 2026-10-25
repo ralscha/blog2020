@@ -1,0 +1,121 @@
+# Weekly version updates; security updates are enabled in repository settings.
+# Minor and patch releases are grouped; major releases remain separate.
+version: 2
+updates:
+- package-ecosystem: docker
+  directory: /golambda/helloworld/lambda
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+- package-ecosystem: docker-compose
+  directory: /hashupgrade
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+- package-ecosystem: gomod
+  directories:
+  - /golambda/arm/infra
+  - /golambda/arm/lambda
+  - /golambda/cloudwatch_cleanup/infra
+  - /golambda/cloudwatch_cleanup/lambda
+  - /golambda/helloworld/infra
+  - /golambda/helloworld/lambda
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+- package-ecosystem: gradle
+  directory: /capacitor-push/client/android
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+- package-ecosystem: maven
+  directories:
+  - /capacitor-push/server
+  - /geophotos/extract
+  - /hCaptcha/basic
+  - /hashupgrade/argon2
+  - /hashupgrade/jooq
+  - /hashupgrade/md5
+  - /protobuf-js2/server
+  - /rxjs-websocket/server
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+- package-ecosystem: npm
+  directories:
+  - /capacitor-push/client
+  - /geophotos/app
+  - /geophotos/appmaptiler
+  - /hCaptcha/ionic
+  - /locationvideo
+  - /protobuf-js2/client
+  - /rxjs-websocket/client
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
