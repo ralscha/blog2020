@@ -1,5 +1,6 @@
 # Weekly version updates; security updates are enabled in repository settings.
 # Minor and patch releases are grouped; major releases remain separate.
+# Temporarily hold TypeScript below 7 for Angular projects; remove the ignore rule when compatible.
 version: 2
 updates:
 - package-ecosystem: docker
@@ -97,14 +98,6 @@ updates:
       - minor
       - patch
 - package-ecosystem: npm
-  directories:
-  - /capacitor-push/client
-  - /geophotos/app
-  - /geophotos/appmaptiler
-  - /hCaptcha/ionic
-  - /locationvideo
-  - /protobuf-js2/client
-  - /rxjs-websocket/client
   schedule:
     interval: weekly
     day: monday
@@ -119,3 +112,31 @@ updates:
       update-types:
       - minor
       - patch
+  directories:
+  - /geophotos/app
+  - /geophotos/appmaptiler
+- package-ecosystem: npm
+  schedule:
+    interval: weekly
+    day: monday
+    time: "09:00"
+    timezone: Europe/Zurich
+  open-pull-requests-limit: 5
+  groups:
+    minor-and-patch-angular:
+      applies-to: version-updates
+      patterns:
+      - '*'
+      update-types:
+      - minor
+      - patch
+  directories:
+  - /capacitor-push/client
+  - /hCaptcha/ionic
+  - /locationvideo
+  - /protobuf-js2/client
+  - /rxjs-websocket/client
+  ignore:
+  - dependency-name: typescript
+    versions:
+    - '>=7.0.0'
