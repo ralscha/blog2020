@@ -284,8 +284,8 @@ github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 h1:vkHw5I/plNdTr435
 github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231/go.mod h1:murToZ2N9hNJzewjHBgfFdXhZKjY3z5cYC1VXk+lbFE=
 github.com/pulumi/pulumi-aws/sdk/v4 v4.38.1 h1:nfvsZ4XUA865Rjq1YTQz99LkCw3fHZxuhGXB7ZPQmts=
 github.com/pulumi/pulumi-aws/sdk/v4 v4.38.1/go.mod h1:bxyJjmoJcz/LQSy+oIrcag1Nio7RWMBJb6me/WV3Llw=
-github.com/pulumi/pulumi-cloud-sdk/go v1.20261112.0 h1:ntbtYXGdta8ZwVqEcw7K2rcbJXVSP34AWg7DsY08u3k=
-github.com/pulumi/pulumi-cloud-sdk/go v1.20261112.0/go.mod h1:aMwd3130zrFnJzpXi0X+Jd9DidPGT2I5zwGOhqqQ/GA=
+github.com/pulumi/pulumi-cloud-sdk/go v1.20261116.0 h1:ZYua4Of6SHv9yJuyVdmikguesy60BR6w0Y7izqr2z8A=
+github.com/pulumi/pulumi-cloud-sdk/go v1.20261116.0/go.mod h1:aMwd3130zrFnJzpXi0X+Jd9DidPGT2I5zwGOhqqQ/GA=
 github.com/pulumi/pulumi/sdk/v3 v3.25.0/go.mod h1:VsxW+TGv2VBLe/MeqsAr9r0zKzK/gbAhFT9QxYr24cY=
 github.com/pulumi/pulumi/sdk/v3 v3.276.0 h1:xkrmwkmAaHC2wilul4RTcPVrGfA6yQetstZpeQrvRWI=
 github.com/pulumi/pulumi/sdk/v3 v3.276.0/go.mod h1:WnPO90tGSd4h5BDTfK4BeDZ/b2Rsq7bhZ2yEcfvScEc=
@@ -303,8 +303,8 @@ github.com/santhosh-tekuri/jsonschema/v5 v5.3.1 h1:lZUw3E0/J3roVtGQ+SCrUrg3ON6Ng
 github.com/santhosh-tekuri/jsonschema/v5 v5.3.1/go.mod h1:uToXkOrWAZ6/Oc07xWQrPOhJotwFIyu2bBVN41fcDUY=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/sergi/go-diff v1.1.0/go.mod h1:STckp+ISIX8hZLjrqAeVduY0gWCT9IjLuqbuNXdaHfM=
-github.com/sergi/go-diff v1.4.0 h1:n/SP9D5ad1fORl+llWyN+D6qoUETXNZARKjyY2/KVCw=
-github.com/sergi/go-diff v1.4.0/go.mod h1:A0bzQcvG0E7Rwjx0REVgAGH58e96+X0MeOfepqsbeW4=
+github.com/sergi/go-diff v1.4.4 h1:hJ31M2v+KXD+fDxKjUpr9qXthRE35QsPNono0FjSTCg=
+github.com/sergi/go-diff v1.4.4/go.mod h1:A0bzQcvG0E7Rwjx0REVgAGH58e96+X0MeOfepqsbeW4=
 github.com/shurcooL/sanitized_anchor_name v1.0.0/go.mod h1:1NzhyTcUVG4SuEtjjoZeVRXNmyL/1OwPU0+IJeTBvfc=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.1/go.mod h1:ni0Sbl8bgC9z8RoU9G6nDWqqs/fq4eDPysMBDgk/93Q=
@@ -517,10 +517,10 @@ google.golang.org/genproto v0.0.0-20180817151627-c66870c02cf8/go.mod h1:JiN7NxoA
 google.golang.org/genproto v0.0.0-20190819201941-24fa4b261c55/go.mod h1:DMBHOl98Agz4BDEuKkezgsaosCRResVns1a3J2ZsMNc=
 google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013/go.mod h1:NbSheEEYHJ7i3ixzK3sjbqSGDJWnxyFXZblF3eUsNvo=
 google.golang.org/genproto v0.0.0-20200608115520-7c474a2e3482/go.mod h1:jDfRM7FcilCzHH/e9qn6dsT145K34l5v+OpcnNgKAAA=
-google.golang.org/genproto/googleapis/api v0.0.0-20261110000943-09e21b237f2c h1:ofk4SEqvpf6M5VWh88xRp42IYgdVOh7gffebnDj3OqU=
-google.golang.org/genproto/googleapis/api v0.0.0-20261110000943-09e21b237f2c/go.mod h1:OzYcNQzaMRKcOFRMtyLzG/cfW1SmS2eh+7UmOLLFblk=
-google.golang.org/genproto/googleapis/rpc v0.0.0-20261110000943-09e21b237f2c h1:XXChExL+Tm7Ubp0x0VXUEncPLHrkXIgoVWqnxmKNbAA=
-google.golang.org/genproto/googleapis/rpc v0.0.0-20261110000943-09e21b237f2c/go.mod h1:OaIUM3+LpYcK2GXM4FTmhWoIq371Owdr+Cc7/BsYHHc=
+google.golang.org/genproto/googleapis/api v0.0.0-20261116203732-fd2c7689a808 h1:138uiCpAaz8IK/8xoJcj2MQUWL5MMtaV7ofVoQJpuY8=
+google.golang.org/genproto/googleapis/api v0.0.0-20261116203732-fd2c7689a808/go.mod h1:Q/ieadaUFs1Xg9kiCENqJcpZMo0aTO4nUCWroI7gAdQ=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20261116203732-fd2c7689a808 h1:fTdQSdJnh58Hq9AG3truAGfWr7VEZ3tCU3DE5kDnTDE=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20261116203732-fd2c7689a808/go.mod h1:OaIUM3+LpYcK2GXM4FTmhWoIq371Owdr+Cc7/BsYHHc=
 google.golang.org/grpc v1.19.0/go.mod h1:mqu4LbDTu4XGKhr4mRzUsmM4RtVoemTSY81AxZiDr8c=
 google.golang.org/grpc v1.21.0/go.mod h1:oYelfM1adQP15Ek0mdvEgi9Df8B9CZIaU1084ijfRaM=
 google.golang.org/grpc v1.23.0/go.mod h1:Y5yQAOtifL1yxbo5wqy6BxZv8vAUGQwXBOALyacEbxg=
